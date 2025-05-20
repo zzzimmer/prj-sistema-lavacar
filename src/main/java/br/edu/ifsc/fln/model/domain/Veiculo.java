@@ -1,9 +1,12 @@
 package br.edu.ifsc.fln.model.domain;
 
+
+//todo dao de veiculo e adiante, tela e controller.
 public class Veiculo {
     private int id;
     private String placa;
     private String observacoes;
+    private Cor cor;
 
     public String getPlaca() {
         return placa;
@@ -19,6 +22,14 @@ public class Veiculo {
 
     public void setObservacoes(String observacoes) {
         this.observacoes = observacoes;
+    }
+
+    public Cor getCor() {
+        return cor;
+    }
+
+    public void setCor(Cor cor) {
+        this.cor = cor;
     }
 
     public Veiculo() {

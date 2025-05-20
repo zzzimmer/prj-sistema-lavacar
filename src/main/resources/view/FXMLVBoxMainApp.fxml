@@ -21,6 +21,7 @@
                   <MenuItem fx:id="menuItemCadastroFornecedor" mnemonicParsing="false" onAction="#handleMenuItemCadastroFornecedor" text="Fornecedor" />
                   <MenuItem fx:id="menuItemCadastroMarca" mnemonicParsing="false" onAction="#handleMenuItemCadastroMarca" text="Marca" />
                   <MenuItem fx:id="menuItemCadastroServico" mnemonicParsing="false" onAction="#handleMenuItemCadastroServico" text="Serviço" />
+                  <MenuItem fx:id="menuItemCadastroCor" mnemonicParsing="false" onAction="#handleMenuItemCadastroCor" text="Cor" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Processos">

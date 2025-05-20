@@ -1,6 +1,12 @@
 CREATE DATABASE IF NOT EXISTS db_vendas;
 USE db_vendas;
 
+CREATE TABLE cor(
+    id int not null auto_increment,
+    nome varchar (30),
+    CONSTRAINT pk_cor
+        PRIMARY KEY
+
 CREATE TABLE servico (
 	id int not null auto_increment,
     descricao varchar(50) NOT NULL,
