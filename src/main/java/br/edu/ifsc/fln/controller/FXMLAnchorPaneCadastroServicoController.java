@@ -105,7 +105,7 @@ public class FXMLAnchorPaneCadastroServicoController implements Initializable {
     }
 
     @FXML
-    public void handleBtInserir() throws IOException {
+    public void handleBtInserir2() throws IOException {
         Servico servico = new Servico();
         boolean btConfirmarClicked = showFXMLAnchorPaneCadastroServicoDialog(servico);
         if (btConfirmarClicked) {
