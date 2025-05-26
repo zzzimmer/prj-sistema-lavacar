@@ -8,6 +8,14 @@ public class Veiculo {
     private String observacoes;
     private Cor cor;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getPlaca() {
         return placa;
     }
