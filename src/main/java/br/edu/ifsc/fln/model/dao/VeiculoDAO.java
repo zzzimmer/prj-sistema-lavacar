@@ -1,7 +1,6 @@
 package br.edu.ifsc.fln.model.dao;
 
-import br.edu.ifsc.fln.model.domain.Marca;
-import br.edu.ifsc.fln.model.domain.Servico;
+
 import br.edu.ifsc.fln.model.domain.Veiculo;
 import br.edu.ifsc.fln.model.domain.Cor;
 
@@ -70,7 +69,7 @@ public class VeiculoDAO {
             stmt.execute();
             return true;
         } catch (SQLException ex){
-            Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VeiculoDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -88,7 +87,7 @@ public class VeiculoDAO {
                 listaRetorno.add(veiculo);
             }
         } catch (SQLException ex){
-            Logger.getLogger(CategoriaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VeiculoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listaRetorno;
     }
@@ -105,7 +104,7 @@ public class VeiculoDAO {
                 retorno.setPlaca(resultSet.getString("placa"));
             }
         } catch (SQLException ex){
-            Logger.getLogger(CategoriaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VeiculoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return retorno;
     }
