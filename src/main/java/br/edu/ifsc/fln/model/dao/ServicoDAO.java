@@ -83,7 +83,7 @@ public class ServicoDAO {
                 listaRetorno.add(servico);
             }
         } catch (SQLException ex){
-            Logger.getLogger(CategoriaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listaRetorno;
     }
@@ -100,7 +100,7 @@ public class ServicoDAO {
                 retorno.setDescricao(resultSet.getString("descricao"));
             }
         } catch (SQLException ex){
-            Logger.getLogger(CategoriaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return retorno;
     }

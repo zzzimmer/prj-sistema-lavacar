@@ -22,14 +22,6 @@ import javafx.scene.layout.AnchorPane;
 public class FXMLVBoxMainAppController implements Initializable {
 
     @FXML
-    private MenuItem menuItemCadastroCategoria;
-    @FXML
-    private MenuItem menuItemCadastroProduto;
-    @FXML
-    private MenuItem menuItemCadastroCliente;
-    @FXML
-    private MenuItem menuItemCadastroFornecedor;
-    @FXML
     private MenuItem menuItemCadastroServico;
     @FXML
     private MenuItem menuItemProcessoVenda;
@@ -39,8 +31,6 @@ public class FXMLVBoxMainAppController implements Initializable {
     private MenuItem menuItemGraficoVendaPorMes;
     @FXML
     private MenuItem menuItemRelatorioEstoque;
-    @FXML 
-    private MenuItem menuItemGraficosVendasPorMes;
 
     @FXML
     private AnchorPane anchorPane;
@@ -50,18 +40,6 @@ public class FXMLVBoxMainAppController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }  
-    
-    @FXML
-    public void handleMenuItemCadastroCategoria() throws IOException {
-        AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/FXMLAnchorPaneCadastroCategoria.fxml"));
-        anchorPane.getChildren().setAll(a);
-    }
-    
-    @FXML
-    public void handleMenuItemCadastroCliente() throws IOException {
-                AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/FXMLAnchorPaneCadastroCliente.fxml"));
-        anchorPane.getChildren().setAll(a);
     }
 
     @FXML
@@ -81,16 +59,6 @@ public class FXMLVBoxMainAppController implements Initializable {
         AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/FXMLAnchorPaneCadastroCor.fxml"));
         anchorPane.getChildren().setAll(a);
     }
-
-    @FXML
-    public void handleMenuItemCadastroFornecedor() throws IOException {
-        //TODO not implemented yet
-    }    
-
-    @FXML
-    public void handleMenuItemCadastroProduto() throws IOException {
-        //TODO not implemented yet
-    }     
     
     @FXML
     public void handleMenuItemProcessoEstoque() throws IOException {

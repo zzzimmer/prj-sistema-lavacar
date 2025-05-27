@@ -76,7 +76,7 @@ public class MarcaDAO {
                 listaRetorno.add(marca);
             }
         } catch (SQLException ex){
-            Logger.getLogger(CategoriaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MarcaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listaRetorno;
     }
@@ -93,7 +93,7 @@ public class MarcaDAO {
                 retorno.setNome(resultSet.getString("nome"));
             }
         } catch (SQLException ex){
-            Logger.getLogger(CategoriaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MarcaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return retorno;
     }
