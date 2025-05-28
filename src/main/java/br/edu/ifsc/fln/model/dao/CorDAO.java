@@ -1,12 +1,10 @@
 package br.edu.ifsc.fln.model.dao;
 
 import br.edu.ifsc.fln.model.domain.Cor;
+import javafx.scene.control.Alert;
 //import br.edu.ifsc.fln.model.domain.Marca;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -59,10 +57,18 @@ public class CorDAO {
             stmt.setLong(1, cor.getId());
             stmt.execute();
             return true;
+        } catch (SQLIntegrityConstraintViolationException ex){
+            //Logger.getLogger(CorDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro de exclusão");
+            alert.setHeaderText(null);
+            alert.setContentText("Não é possível excluir esta cor pois existem veículos associados.");
+            alert.showAndWait();
         } catch (SQLException ex){
             Logger.getLogger(CorDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+        return false;
     }
 
     public List<Cor> listar(){

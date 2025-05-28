@@ -55,10 +55,13 @@ public class FXMLAnchorPaneCadastroServicoController implements Initializable {
     private Label lbServicoValor;
 
     @FXML
+    private Label lbServicoCategoria;
+
+    @FXML
     private TableColumn<Servico, String> tableColumnServicoDescricao;
 
     @FXML
-    private TableView<Servico> tableViewServico;// originalmente Servico
+    private TableView<Servico> tableViewServico;
     
     private List<Servico> listaServico;
     private ObservableList<Servico> observableListServico;
@@ -94,23 +97,23 @@ public class FXMLAnchorPaneCadastroServicoController implements Initializable {
             lbServicoDescricao.setText(servico.getDescricao());
             lbServicoValor.setText(String.valueOf(servico.getValor()));
             lbServicoPontos.setText(String.valueOf(servico.getPontos()));
+            lbServicoCategoria.setText(String.valueOf(servico.getEcategoria()));
 
         } else {
             lbServicoId.setText("");
             lbServicoDescricao.setText("");
-            lbServicoValor.setText(""); // tava caindo nesse else, logo não alterava o valor que ja tava
+            lbServicoValor.setText("");
             lbServicoPontos.setText("");
+            lbServicoCategoria.setText("");
         }
 
     }
 
     @FXML
-    public void handleBtInserir2() throws IOException {
+    public void handleBtInserir() throws IOException {
         Servico servico = new Servico();
         boolean btConfirmarClicked = showFXMLAnchorPaneCadastroServicoDialog(servico);
         if (btConfirmarClicked) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.show();
             servicoDAO.inserir(servico);
             carregarTableViewServico();
 

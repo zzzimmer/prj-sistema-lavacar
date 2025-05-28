@@ -5,8 +5,7 @@ public class Servico {
     private String descricao;
     private double valor;
     private int pontos;
-
-//TODO implementar o ENUM
+    private Ecategoria categoria;
 
     public int getId() {
         return id;
@@ -38,6 +37,14 @@ public class Servico {
 
     public void setPontos(int pontos) { //Pode firar um Definir posteriormente
         this.pontos = pontos;
+    }
+
+    public Ecategoria getEcategoria() {
+        return categoria;
+    }
+
+    public void setEcategoria(Ecategoria categoria) {
+        this.categoria = categoria;
     }
 
     @Override

@@ -100,8 +100,6 @@ public class FXMLAnchorPaneCadastroCorController implements Initializable {
         Cor cor = new Cor();
         boolean btConfirmarClicked = showFXMLAnchorPaneCadastroCorDialog(cor);
         if (btConfirmarClicked) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.show();
             corDAO.inserir(cor);
             carregarTableViewCor();
 
@@ -127,6 +125,8 @@ public class FXMLAnchorPaneCadastroCorController implements Initializable {
     @FXML
     public void handleBtExcluir() throws IOException {
         Cor cor = tableViewCor.getSelectionModel().getSelectedItem();
+        //confirmaAção();
+
         if (cor != null) {
             corDAO.remover(cor);
             carregarTableViewCor();
@@ -136,6 +136,11 @@ public class FXMLAnchorPaneCadastroCorController implements Initializable {
             alert.show();
         }
     }
+
+//    public void confirmaAção(){
+//        Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION);
+//        alert1.show();
+//    }
 
     private boolean showFXMLAnchorPaneCadastroCorDialog(Cor cor) throws IOException {
         FXMLLoader loader = new FXMLLoader();

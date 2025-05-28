@@ -50,12 +50,12 @@
             <scope>runtime</scope>
         </dependency>
 
-    <!-- Driver do Oracle -->
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <version>21.5.0.0</version>
-        </dependency>
+<!--    &lt;!&ndash; Driver do Oracle &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.oracle</groupId>-->
+<!--            <artifactId>ojdbc8</artifactId>-->
+<!--            <version>21.5.0.0</version>-->
+<!--        </dependency>-->
 
      <!-- Biblioteca de temas CSS -->
         <dependency>

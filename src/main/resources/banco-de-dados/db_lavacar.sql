@@ -1,3 +1,5 @@
+todo limpar tabelas não usadas
+
 CREATE DATABASE IF NOT EXISTS db_lavacar;
 USE db_lavacar;
 
@@ -32,6 +34,7 @@ CREATE TABLE servico (
     descricao varchar(50) NOT NULL,
     valor DOUBLE,
     pontos INT,
+    categoria ENUM ('PEQUENO', 'MEDIO', 'GRANDE', 'PADRAO', 'MOTO') NOT NULL,
     CONSTRAINT pk_servico
 		PRIMARY KEY (id)
         )engine=InnoDB;

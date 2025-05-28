@@ -4,11 +4,14 @@
  */
 package br.edu.ifsc.fln.controller;
 
+import br.edu.ifsc.fln.model.domain.Ecategoria;
 import br.edu.ifsc.fln.model.domain.Servico;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -40,13 +43,20 @@ public class FXMLAnchorPaneCadastroServicoDialogController implements Initializa
     private Stage dialogStage;
     private boolean btConfirmarClicked = false;
     private Servico servico;
-    
+
+//    @FXML - Errado.
+//    private ChoiceBox <Ecategoria> cbCategoria = new ChoiceBox<>();
+
+    @FXML
+    private ChoiceBox<Ecategoria> cbCategoria;
+
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        cbCategoria.getItems().addAll(Ecategoria.values()); // Por que tem mais de um value? e valueOf?
     }       
 
     public boolean isBtConfirmarClicked() {
@@ -75,7 +85,7 @@ public class FXMLAnchorPaneCadastroServicoDialogController implements Initializa
         this.tfValor.setText(String.valueOf(servico.getValor()));
         this.tfPontos.setText(String.valueOf(servico.getPontos()));
     }
-    
+
 
     @FXML
     public void handleBtConfirmar() {
@@ -83,6 +93,7 @@ public class FXMLAnchorPaneCadastroServicoDialogController implements Initializa
             servico.setDescricao(tfDescricao.getText());
             servico.setValor(Float.parseFloat(tfValor.getText()));
             servico.setPontos(Integer.parseInt(tfPontos.getText()));
+            servico.setEcategoria(cbCategoria.getValue());
 
             btConfirmarClicked = true;
             dialogStage.close();
