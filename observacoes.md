@@ -11,3 +11,5 @@ Falta:
 Cadastro de Modelo
 Cadastro de Modelo/Motor
 Cadastro de Veículo
+
+Aula de Referência - Avaliação (20/05/2025 - 20/05/2025)
