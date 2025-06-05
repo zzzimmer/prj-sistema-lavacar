@@ -23,5 +23,38 @@ public class Modelo {
 
     private void criaMotor(){
         this.motor = new Motor();
+        this.motor.setModelo();
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Marca getMarca() {
+        return marca;
+    }
+
+    public void setMarca(Marca marca) {
+        this.marca = marca;
+    }
+
+    public Ecategoria getEcategoria() {
+        return ecategoria;
+    }
+
+    public void setEcategoria(Ecategoria ecategoria) {
+        this.ecategoria = ecategoria;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

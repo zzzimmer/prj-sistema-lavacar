@@ -1,5 +1,3 @@
-todo limpar tabelas não usadas
-
 CREATE DATABASE IF NOT EXISTS db_lavacar;
 USE db_lavacar;
 
@@ -14,7 +12,7 @@ CREATE TABLE veiculo(
     id int not null auto_increment,
     placa varchar (20),
     observacoes varchar (200),
-    id_cor int not null,
+    id_cor int not null, //talvez possa ser null
     CONSTRAINT pk_veiculo
         PRIMARY KEY(id),
     CONSTRAINT fk_veiculo_cor
@@ -49,37 +47,37 @@ CREATE TABLE marca (
 		PRIMARY KEY (id)
         )engine=InnoDB;
 
-CREATE TABLE categoria(
-   id int NOT NULL auto_increment,
-   descricao  varchar(50) NOT NULL,
-   CONSTRAINT pk_categoria
-      PRIMARY KEY(id)
-) engine=InnoDB;
+-- CREATE TABLE categoria(
+--    id int NOT NULL auto_increment,
+--    descricao  varchar(50) NOT NULL,
+--    CONSTRAINT pk_categoria
+--       PRIMARY KEY(id)
+-- ) engine=InnoDB;
+--
+-- CREATE TABLE produto(
+--    id int NOT NULL auto_increment,
+--    nome varchar(50) NOT NULL,
+--    descricao varchar(200),
+--    preco decimal(10,2) NOT NULL,
+--    id_categoria int NOT NULL ,
+--    CONSTRAINT pk_produto
+--       PRIMARY KEY(id),
+--    CONSTRAINT fk_produto_categoria
+--       FOREIGN KEY(id_categoria)
+--       REFERENCES categoria(id)
+-- ) engine=InnoDB;
 
-CREATE TABLE produto(
-   id int NOT NULL auto_increment,
-   nome varchar(50) NOT NULL,
-   descricao varchar(200),
-   preco decimal(10,2) NOT NULL,
-   id_categoria int NOT NULL ,
-   CONSTRAINT pk_produto
-      PRIMARY KEY(id),
-   CONSTRAINT fk_produto_categoria
-      FOREIGN KEY(id_categoria)
-      REFERENCES categoria(id)
-) engine=InnoDB;
-
-CREATE TABLE cliente(
-   id int NOT NULL auto_increment,
-   nome varchar(50) NOT NULL,
-   cpf varchar(50) NOT NULL,
-   telefone varchar(50) NOT NULL,
-   email varchar(100),
-   endereco varchar(100),
-   data_nascimento date,
-   CONSTRAINT pk_cliente
-      PRIMARY KEY(id)
-) engine=InnoDB;
+-- CREATE TABLE cliente(
+--    id int NOT NULL auto_increment,
+--    nome varchar(50) NOT NULL,
+--    cpf varchar(50) NOT NULL,
+--    telefone varchar(50) NOT NULL,
+--    email varchar(100),
+--    endereco varchar(100),
+--    data_nascimento date,
+--    CONSTRAINT pk_cliente
+--       PRIMARY KEY(id)
+-- ) engine=InnoDB;
 
 INSERT INTO cliente(nome, cpf, telefone, email, endereco, data_nascimento) VALUES('Edgar','111.111.111-11','(11) 1111-1111', 'edgar@ifsc.edu.br', 'av. mauro ramos', '1970-04-20');
 INSERT INTO cliente(nome, cpf, telefone, email, endereco, data_nascimento) VALUES('Marilene','222.222.222-22','(22) 2222-2121', 'marilene@ifsc.edu.br', 'av. mauro ramos', '1979-10-18');
