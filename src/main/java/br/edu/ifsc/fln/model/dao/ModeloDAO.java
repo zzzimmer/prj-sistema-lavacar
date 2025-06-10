@@ -26,14 +26,18 @@ public class ModeloDAO {
 
     public boolean inserir (Modelo modelo){
        final String sql = "INSERT INTO modelo(descricao, id_marca, categoria) VALUES(?,?,?)";
-       final String sqlMotor = "INSERT INTO motor (id_modelo) (SELECT max(id) FROM modelo)"; // isso também adiciona na tabela de modelo o valor de id_motor
+       final String sqlMotor = "INSERT INTO motor (id_modelo, potencia, tipo_combustivel) VALUES ((SELECT MAX(id) FROM modelo), ?,?)";
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, modelo.getDescricao());
             stmt.setInt(2, modelo.getMarca().getId());
             stmt.setString(3,String.valueOf(modelo.getEcategoria()));
             stmt.execute();
+
             stmt = connection.prepareStatement(sqlMotor);
+            stmt.setInt(1,modelo.getMotor().getPotencia());
+            stmt.setString(2,String.valueOf(modelo.getMotor().getEtipoCombustivel()));
+
             stmt.execute();
             return true;
         } catch (SQLException ex){
@@ -43,7 +47,8 @@ public class ModeloDAO {
     }
 
     public boolean alterar (Modelo modelo) {
-        String sql = "UPDATE modelo SET descricao =?, id_marca=?, categoria=? WHERE id =?"; // organiza a string sql
+        String sql = "UPDATE modelo SET descricao =?, id_marca=?, categoria=? WHERE id =?";// organiza a string sql
+        String sqlMotor = "UPDATE motor SET potencia=?, tipo_combustivel =? WHERE id_modelo=? ";
         try {
             PreparedStatement stmt; //declara
             stmt = connection.prepareStatement(sql); //inicializa stmt
@@ -52,6 +57,16 @@ public class ModeloDAO {
             stmt.setString(3,String.valueOf(modelo.getEcategoria()));
             stmt.setInt(4, modelo.getId());
             stmt.execute();
+
+            stmt = connection.prepareStatement(sqlMotor);
+            stmt.setInt(1, modelo.getMotor().getPotencia());
+            stmt.setString(2, String.valueOf(modelo.getMotor().getEtipoCombustivel()));
+            stmt.setInt(3,modelo.getId());
+//            System.out.println("Potência: " + modelo.getMotor().getPotencia());
+//            System.out.println("Tipo de Combustível: " + modelo.getMotor().getEtipoCombustivel());
+//            System.out.println("ID do Modelo: " + modelo.getId());
+            stmt.execute();
+
             return true;
         } catch (SQLException ex){
             Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -73,7 +88,8 @@ public class ModeloDAO {
     }
 
     public List<Modelo> listar(){
-        String sql = "SELECT * FROM modelo";
+        String sql = "SELECT modelo.*, motor.* FROM modelo " + "INNER JOIN motor " +
+                "ON modelo.id = motor.id_modelo";
         List<Modelo> listaRetorno = new ArrayList<>();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -87,6 +103,7 @@ public class ModeloDAO {
         }
         return listaRetorno;
     }
+
 
     public Modelo buscar (int id){
         String sql = "SELECT * FROM modelo WHERE id=?";
@@ -124,11 +141,11 @@ public class ModeloDAO {
         marcaDAO.setConnection(connection);
         marca = marcaDAO.buscar(marca);
 
-        //pense que, ao fazer getMotor, você ta usando um objeto, da mesma forma
-        //que ao instânciar uma marca, você a usa para acesssar um atributo da tabela
-        // de marca, aqui você usa esse getMotor para acessar a tabela de motor.
         modelo.getMotor().setPotencia(resultSet.getInt("potencia"));
-        //Esse get da certo afinal toda instância de modelo tem um motor
+//        System.out.println((resultSet.getInt("potencia")));
+        modelo.getMotor().setEtipoCombustivel(Enum.valueOf
+                (EtipoCombustivel.class,resultSet.getString("tipo_combustivel")));
+//        System.out.println(resultSet.getString("tipo_combustivel"));
 
         modelo.setMarca(marca);
 

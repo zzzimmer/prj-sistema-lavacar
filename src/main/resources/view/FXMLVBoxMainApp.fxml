@@ -19,6 +19,7 @@
                   <MenuItem fx:id="menuItemCadastroCor" mnemonicParsing="false" onAction="#handleMenuItemCadastroCor" text="Cor" />
                 <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="menuItemCadastroModelo" mnemonicParsing="false" onAction="#handleMenuItemCadastroModelo" text="Modelo" />
+                <MenuItem fx:id="menuItemCadastroVeiculo" mnemonicParsing="false" onAction="#handleMenuItemCadastroVeiculo" text="Veiculo" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Processos">

@@ -91,10 +91,8 @@ public class FXMLAnchorPaneCadastroModeloController implements Initializable {
     public void carregarTableViewModelo() {
         tableColumnModeloDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
         
-        listaModelo = modeloDAO.listar(); // eu entendo porque aqui se faz uma lista de Modelo, mas por que
-//        essa lista de modelo é populada com as marcas? pela associação ela precisa esTAr ali e deu ?
-// Talvez faça sentido pensar que Modelo não se encerra em si mesmo (virou poesia) e então tem que
-//puxar marca junto.
+        listaModelo = modeloDAO.listar();
+
         
         observableListModelo =
                 FXCollections.observableArrayList(listaModelo);
@@ -107,6 +105,11 @@ public class FXMLAnchorPaneCadastroModeloController implements Initializable {
             lbModeloDescricao.setText(modelo.getDescricao());
             lbModeloMarca.setText(modelo.getMarca().getNome());
             lbModeloCategoria.setText(modelo.getEcategoria().toString());
+//            System.out.println((String.valueOf(modelo.getMotor().getPotencia())));
+//            System.out.println((modelo.getMotor().getPotencia()));
+            lbModeloMotorPotencia.setText(String.valueOf(modelo.getMotor().getPotencia()));
+//            System.out.println((modelo.getMotor().getEtipoCombustivel().toString()));
+            lbModeloMotorTipoCombustivel.setText(modelo.getMotor().getEtipoCombustivel().toString());
 
 
 

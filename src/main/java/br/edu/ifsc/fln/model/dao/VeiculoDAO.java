@@ -33,11 +33,9 @@ public class VeiculoDAO {
             //registra o veiculo
             stmt.setString(1, veiculo.getPlaca());
             stmt.setString(2, veiculo.getObservacoes());
+//            System.out.println(veiculo.getCor().getId());
             stmt.setLong(3, veiculo.getCor().getId());
             stmt.execute();
-            //registra o estoque do produto imediatamente // deve registra o dono?
-            //stmt = connection.prepareStatement(sqlEstoque);// linha que trabalha com a composição
-            //stmt.execute();
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(VeiculoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -52,7 +50,7 @@ public class VeiculoDAO {
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, veiculo.getPlaca());
             stmt.setString(2,veiculo.getObservacoes());
-            stmt.setLong(3,veiculo.getCor().getId());// talvez seja melhor trazer um daqueles botão que desce as opções.
+            stmt.setLong(3,veiculo.getCor().getId());
             stmt.execute();
             return true;
         }  catch (SQLException ex) {
@@ -81,9 +79,9 @@ public class VeiculoDAO {
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet resultado = stmt.executeQuery();
             while (resultado.next()){
-                Veiculo veiculo = new Veiculo();
-                veiculo.setId(resultado.getInt("id"));
-                veiculo.setPlaca(resultado.getString("placa"));
+                Veiculo veiculo = populateVO(resultado); // result set retorna um veiculo.
+                // nesse caso, eu estou colocando um veiculo dentro de outro (?) que instanciei
+                // linha acima?
                 listaRetorno.add(veiculo);
             }
         } catch (SQLException ex){
@@ -112,5 +110,22 @@ public class VeiculoDAO {
     public Veiculo buscar (Veiculo veiculo){
         Veiculo retorno = buscar(veiculo.getId());
         return retorno;
+    }
+
+    private Veiculo populateVO(ResultSet rs) throws SQLException {
+        Veiculo veiculo = new Veiculo();
+
+        veiculo.setId(rs.getInt("id"));
+        veiculo.setPlaca(rs.getString("placa"));
+        veiculo.setObservacoes(rs.getString("observacoes"));
+
+        Cor cor = new Cor();
+        cor.setId(rs.getInt("id_cor"));
+        CorDAO corDAO = new CorDAO();
+        corDAO.setConnection(connection);
+        cor = corDAO.buscar(cor);
+
+        veiculo.setCor(cor);
+        return veiculo;
     }
 }

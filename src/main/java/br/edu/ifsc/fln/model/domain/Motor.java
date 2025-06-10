@@ -25,7 +25,7 @@ public class Motor {
         EtipoCombustivel = etipoCombustivel;
     }
 
-    public void setModelo() {
+    public void setModelo(Modelo modelo) {
         this.modelo = modelo;
     }
 }

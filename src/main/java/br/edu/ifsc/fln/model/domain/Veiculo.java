@@ -7,7 +7,7 @@ public class Veiculo {
     private String placa;
     private String observacoes;
     private Cor cor;
-
+    private Modelo modelo;
     public int getId() {
         return id;
     }
@@ -38,6 +38,14 @@ public class Veiculo {
 
     public void setCor(Cor cor) {
         this.cor = cor;
+    }
+
+    public Modelo getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
     }
 
     public Veiculo() {

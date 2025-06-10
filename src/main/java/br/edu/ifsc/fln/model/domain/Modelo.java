@@ -23,7 +23,8 @@ public class Modelo {
 
     private void criaMotor(){
         this.motor = new Motor();
-        this.motor.setModelo();
+        motor.setModelo(this);
+//        motor.setPotencia(1);
     }
 
     public String getDescricao() {
@@ -57,4 +58,6 @@ public class Modelo {
     public void setId(int id) {
         this.id = id;
     }
+
+
 }

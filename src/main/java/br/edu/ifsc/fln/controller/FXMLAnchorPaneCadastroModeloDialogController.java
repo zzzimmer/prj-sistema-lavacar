@@ -6,12 +6,10 @@ package br.edu.ifsc.fln.controller;
 
 import br.edu.ifsc.fln.exception.DAOException;
 import br.edu.ifsc.fln.model.dao.MarcaDAO;
+import br.edu.ifsc.fln.model.dao.ModeloDAO;
 import br.edu.ifsc.fln.model.database.Database;
 import br.edu.ifsc.fln.model.database.DatabaseFactory;
-import br.edu.ifsc.fln.model.domain.Cor;
-import br.edu.ifsc.fln.model.domain.Ecategoria;
-import br.edu.ifsc.fln.model.domain.Marca;
-import br.edu.ifsc.fln.model.domain.Modelo;
+import br.edu.ifsc.fln.model.domain.*;
 import br.edu.ifsc.fln.utils.AlertDialog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,6 +44,11 @@ public class FXMLAnchorPaneCadastroModeloDialogController implements Initializab
 
     @FXML
     private ChoiceBox<Ecategoria> cbCategoria;
+
+    @FXML
+    private TextField tfMotorPotencia;
+
+    @FXML ChoiceBox <EtipoCombustivel> cbMotorTipoCombustivel;
     
     private Stage dialogStage;
     private boolean btConfirmarClicked = false;
@@ -55,6 +58,7 @@ public class FXMLAnchorPaneCadastroModeloDialogController implements Initializab
     private final Connection connection = database.conectar();
     private final MarcaDAO marcaDAO = new MarcaDAO();
 
+
     /**
      * Initializes the controller class.
      */
@@ -63,10 +67,12 @@ public class FXMLAnchorPaneCadastroModeloDialogController implements Initializab
         marcaDAO.setConnection(connection);
         carregarComboBoxMarca();
         cbCategoria.getItems().addAll(Ecategoria.values());
+        cbMotorTipoCombustivel.getItems().addAll(EtipoCombustivel.values());
     }
 
     private List<Marca> listaMarca;
     private ObservableList<Marca> marcaObservableList;
+
 
     public void carregarComboBoxMarca(){
 //        try {
@@ -111,6 +117,9 @@ public class FXMLAnchorPaneCadastroModeloDialogController implements Initializab
             modelo.setDescricao(tfDescricao.getText());
             modelo.setMarca(cbMarca.getSelectionModel().getSelectedItem());
             modelo.setEcategoria(cbCategoria.getValue());
+            modelo.getMotor().setPotencia(Integer.parseInt(tfMotorPotencia.getText()));
+            modelo.getMotor().setEtipoCombustivel(cbMotorTipoCombustivel.getValue());
+
 
             btConfirmarClicked = true;
             dialogStage.close();
