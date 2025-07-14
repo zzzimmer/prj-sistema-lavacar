@@ -30,18 +30,18 @@ public class FXMLAnchorPaneCadastroMarcaDialogController implements Initializabl
 
     @FXML
     private TextField tfNome;
-    
+
     private Stage dialogStage;
     private boolean btConfirmarClicked = false;
     private Marca marca;
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }       
+    }
 
     public boolean isBtConfirmarClicked() {
         return btConfirmarClicked;
@@ -66,8 +66,9 @@ public class FXMLAnchorPaneCadastroMarcaDialogController implements Initializabl
     public void setMarca(Marca marca) {
         this.marca = marca;
         this.tfNome.setText(marca.getNome());
+
     }
-    
+
 
     @FXML
     public void handleBtConfirmar() {
@@ -78,23 +79,27 @@ public class FXMLAnchorPaneCadastroMarcaDialogController implements Initializabl
             dialogStage.close();
         }
     }
-    
+
     @FXML
     public void handleBtCancelar() {
         dialogStage.close();
     }
-    
-    //método para validar a entrada de dados
+
     private boolean validarEntradaDeDados() {
         String errorMessage = "";
-        if (this.tfNome.getText() == null || this.tfNome.getText().length() == 0) {
-            errorMessage += "Descrição inválida.\n";
+
+        String nome = this.tfNome.getText();
+
+        if (nome == null || nome.trim().isEmpty()) {
+            errorMessage += "Descrição inválida (não pode ser vazia).\n";
         }
-        
-        if (errorMessage.length() == 0) {
+        else if (!nome.matches("[a-zA-Z ]+")) {
+            errorMessage += "Descrição inválida (use apenas letras e espaços).\n";
+        }
+
+        if (errorMessage.isEmpty()) {
             return true;
         } else {
-            //exibindo uma mensagem de erro
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro no cadastro");
             alert.setHeaderText("Corrija os campos inválidos!");
@@ -103,5 +108,4 @@ public class FXMLAnchorPaneCadastroMarcaDialogController implements Initializabl
             return false;
         }
     }
-    
 }

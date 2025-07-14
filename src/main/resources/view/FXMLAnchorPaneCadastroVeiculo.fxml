@@ -36,7 +36,7 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <GridPane layoutX="16.0" layoutY="62.0" prefHeight="140.0" prefWidth="322.0">
+                  <GridPane layoutX="16.0" layoutY="62.0" prefHeight="197.0" prefWidth="322.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.4000244140625" minWidth="3.200000000000003" prefWidth="87.0" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="226.40000000000003" minWidth="10.0" prefWidth="194.0" />
@@ -45,6 +45,8 @@
                       <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
                       <RowConstraints maxHeight="57.0" minHeight="10.0" prefHeight="32.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="49.0" minHeight="4.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="62.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="62.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="62.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
@@ -78,6 +80,10 @@
                            <GridPane.margin>
                               <Insets left="5.0" />
                            </GridPane.margin></Label>
+                        <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="98.0" text="Modelo:" GridPane.rowIndex="4" />
+                        <Label fx:id="lbVeiculoModelo" prefHeight="18.0" prefWidth="230.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="98.0" GridPane.rowIndex="5" />
+                        <Label fx:id="lbVeiculoMarca" prefHeight="18.0" prefWidth="230.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                      </children>
                   </GridPane>
                   <Group layoutX="92.0" layoutY="338.0" AnchorPane.bottomAnchor="21.0" AnchorPane.rightAnchor="75.0">

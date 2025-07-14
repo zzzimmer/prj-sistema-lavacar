@@ -84,6 +84,7 @@ public class FXMLAnchorPaneCadastroServicoDialogController implements Initializa
         this.tfDescricao.setText(servico.getDescricao());
         this.tfValor.setText(String.valueOf(servico.getValor()));
         this.tfPontos.setText(String.valueOf(servico.getPontos()));
+        this.cbCategoria.setValue(servico.getEcategoria());
     }
 
 
@@ -105,11 +106,16 @@ public class FXMLAnchorPaneCadastroServicoDialogController implements Initializa
         dialogStage.close();
     }
     
-    //método para validar a entrada de dados
     private boolean validarEntradaDeDados() {
         String errorMessage = "";
-        if (this.tfDescricao.getText() == null || this.tfDescricao.getText().length() == 0) {
-            errorMessage += "Descrição inválida.\n";
+
+        String nome = this.tfDescricao.getText();
+
+        if (nome == null || nome.trim().isEmpty()) {
+            errorMessage += "Descrição inválida (não pode ser vazia).\n";
+        }
+        else if (!nome.matches("[a-zA-Z ]+")) {
+            errorMessage += "Descrição inválida (use apenas letras e espaços).\n";
         }
         
         if (errorMessage.length() == 0) {

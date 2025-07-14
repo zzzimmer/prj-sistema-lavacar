@@ -1,6 +1,7 @@
 package br.edu.ifsc.fln.model.dao;
 
 
+import br.edu.ifsc.fln.model.domain.Modelo;
 import br.edu.ifsc.fln.model.domain.Veiculo;
 import br.edu.ifsc.fln.model.domain.Cor;
 
@@ -26,15 +27,15 @@ public class VeiculoDAO {
     }
 
     public boolean inserir(Veiculo veiculo) {
-        final String sql = "INSERT INTO veiculo(placa, observacoes, id_cor) VALUES(?,?,?);";
-        //final String sqlEstoque = "INSERT INTO estoque(id_produto) (SELECT max(id) FROM produto);";
+        final String sql = "INSERT INTO veiculo(placa, observacoes, id_cor, id_modelo, id_cliente) VALUES(?,?,?,?,?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             //registra o veiculo
             stmt.setString(1, veiculo.getPlaca());
             stmt.setString(2, veiculo.getObservacoes());
-//            System.out.println(veiculo.getCor().getId());
             stmt.setLong(3, veiculo.getCor().getId());
+            stmt.setLong(4,veiculo.getModelo().getId());
+            stmt.setLong(5,veiculo.getCliente().getId());
             stmt.execute();
             return true;
         } catch (SQLException ex) {
@@ -44,13 +45,15 @@ public class VeiculoDAO {
     }
 
     public boolean alterar (Veiculo veiculo){
-        String sql = "UPDATE veiculo SET placa =?, observacoes =?, id_cor=? WHERE id=?";
+        String sql = "UPDATE veiculo SET placa =?, observacoes =?, id_cor=?, id_modelo=? WHERE id=?";
         try{
             PreparedStatement stmt;
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, veiculo.getPlaca());
             stmt.setString(2,veiculo.getObservacoes());
             stmt.setLong(3,veiculo.getCor().getId());
+            stmt.setLong(4,veiculo.getModelo().getId());
+            stmt.setInt(5,veiculo.getId());
             stmt.execute();
             return true;
         }  catch (SQLException ex) {
@@ -79,9 +82,12 @@ public class VeiculoDAO {
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet resultado = stmt.executeQuery();
             while (resultado.next()){
-                Veiculo veiculo = populateVO(resultado); // result set retorna um veiculo.
-                // nesse caso, eu estou colocando um veiculo dentro de outro (?) que instanciei
-                // linha acima?
+                Veiculo veiculo = populateVO(resultado);
+//                System.out.println("--------------");
+//                System.out.println("Listar()");
+//                System.out.println(veiculo);
+//                System.out.println("--------------");
+
                 listaRetorno.add(veiculo);
             }
         } catch (SQLException ex){
@@ -119,13 +125,24 @@ public class VeiculoDAO {
         veiculo.setPlaca(rs.getString("placa"));
         veiculo.setObservacoes(rs.getString("observacoes"));
 
+        Modelo modelo = new Modelo();
+        modelo.setId(rs.getInt("id_modelo"));
+        ModeloDAO modeloDAO = new ModeloDAO();
+        modeloDAO.setConnection(connection);
+        modelo = modeloDAO.buscar(modelo);
+        veiculo.setModelo(modelo);
+
         Cor cor = new Cor();
         cor.setId(rs.getInt("id_cor"));
         CorDAO corDAO = new CorDAO();
         corDAO.setConnection(connection);
         cor = corDAO.buscar(cor);
-
         veiculo.setCor(cor);
+//        System.out.println("--------------");
+//        System.out.println("Populate VO");
+//        System.out.println(veiculo);
+//        System.out.println("--------------");
+
         return veiculo;
     }
 }

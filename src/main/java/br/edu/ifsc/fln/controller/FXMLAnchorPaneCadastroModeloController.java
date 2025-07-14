@@ -79,7 +79,7 @@ public class FXMLAnchorPaneCadastroModeloController implements Initializable {
     /**
      * Initializes the controller class.
      */
-    @Override
+//    @Override
     public void initialize(URL url, ResourceBundle rb) {
         modeloDAO.setConnection(connection);
         carregarTableViewModelo();
@@ -105,10 +105,7 @@ public class FXMLAnchorPaneCadastroModeloController implements Initializable {
             lbModeloDescricao.setText(modelo.getDescricao());
             lbModeloMarca.setText(modelo.getMarca().getNome());
             lbModeloCategoria.setText(modelo.getEcategoria().toString());
-//            System.out.println((String.valueOf(modelo.getMotor().getPotencia())));
-//            System.out.println((modelo.getMotor().getPotencia()));
             lbModeloMotorPotencia.setText(String.valueOf(modelo.getMotor().getPotencia()));
-//            System.out.println((modelo.getMotor().getEtipoCombustivel().toString()));
             lbModeloMotorTipoCombustivel.setText(modelo.getMotor().getEtipoCombustivel().toString());
 
 
@@ -116,6 +113,11 @@ public class FXMLAnchorPaneCadastroModeloController implements Initializable {
         } else {
             lbModeloId.setText("");
             lbModeloDescricao.setText("");
+            lbModeloDescricao.setText("");
+            lbModeloMarca.setText("");
+            lbModeloCategoria.setText("");
+            lbModeloMotorPotencia.setText("");
+            lbModeloMotorTipoCombustivel.setText("");
         }
 
     }

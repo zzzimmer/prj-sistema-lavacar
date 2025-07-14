@@ -26,4 +26,8 @@ public class Cor {
     public Cor(String nome) {
         this.nome = nome;
     }
+    @Override
+    public String toString(){
+        return this.nome;
+    }
 }

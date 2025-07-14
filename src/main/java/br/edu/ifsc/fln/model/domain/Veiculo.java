@@ -8,6 +8,10 @@ public class Veiculo {
     private String observacoes;
     private Cor cor;
     private Modelo modelo;
+
+    private Cliente cliente;
+
+
     public int getId() {
         return id;
     }
@@ -58,5 +62,13 @@ public class Veiculo {
     public Veiculo(String placa, String observacoes) {
         this.placa = placa;
         this.observacoes = observacoes;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }

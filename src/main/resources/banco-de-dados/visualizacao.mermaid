@@ -1,0 +1,60 @@
+erDiagram
+    cor {
+        INT id PK
+        VARCHAR nome
+    }
+    marca {
+        INT id PK
+        VARCHAR nome
+    }
+    modelo {
+        INT id PK
+        VARCHAR descricao
+        INT id_marca FK
+        ENUM categoria
+    }
+    motor {
+        INT id_modelo PK, FK
+        ENUM tipo_combustivel
+        INT potencia
+    }
+    veiculo {
+        INT id PK
+        VARCHAR placa
+        VARCHAR observacoes
+        INT id_cor FK
+        INT id_modelo FK
+        INT id_cliente FK
+    }
+    servico {
+        INT id PK
+        VARCHAR descricao
+        DOUBLE valor
+        INT pontos
+        ENUM categoria
+    }
+    cliente {
+        INT id PK
+        VARCHAR nome
+        VARCHAR celular
+        VARCHAR email
+        DATE data_cadastro
+    }
+    pessoa_fisica {
+        INT id_cliente PK, FK
+        VARCHAR cpf
+        DATE data_nascimento
+    }
+    pessoa_juridica {
+        INT id_cliente PK, FK
+        VARCHAR cnpj
+        VARCHAR inscricao_estadual
+    }
+
+    marca ||--o{ modelo : "possui"
+    modelo ||--|| motor : "tem"
+    modelo ||--o{ veiculo : "é um"
+    cor ||--o{ veiculo : "colorido com"
+    cliente ||--o{ veiculo : "possui"
+    cliente ||--|| pessoa_fisica : "é PF"
+    cliente ||--|| pessoa_juridica : "é PJ"

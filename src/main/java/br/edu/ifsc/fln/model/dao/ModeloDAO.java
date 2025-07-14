@@ -28,6 +28,8 @@ public class ModeloDAO {
        final String sql = "INSERT INTO modelo(descricao, id_marca, categoria) VALUES(?,?,?)";
        final String sqlMotor = "INSERT INTO motor (id_modelo, potencia, tipo_combustivel) VALUES ((SELECT MAX(id) FROM modelo), ?,?)";
         try{
+            connection.setAutoCommit(false);
+
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, modelo.getDescricao());
             stmt.setInt(2, modelo.getMarca().getId());
@@ -39,10 +41,23 @@ public class ModeloDAO {
             stmt.setString(2,String.valueOf(modelo.getMotor().getEtipoCombustivel()));
 
             stmt.execute();
+            connection.commit();
             return true;
         } catch (SQLException ex){
-            Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            try{
+                connection.rollback();
+                System.out.println("Erro. Rollback");
+            } catch (SQLException e){
+                Logger.getLogger(ModeloDAO.class.getName()).log(Level.SEVERE, "Erro ao realizar rollback", e);
+            }
+            Logger.getLogger(ModeloDAO.class.getName()).log(Level.SEVERE, "Modelo e Motor não foram inseridos, tente novamente", ex);
             return false;
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e){
+                Logger.getLogger(ModeloDAO.class.getName()).log(Level.SEVERE, "Erro ao restaurar autocommit", e);
+            }
         }
     }
 
@@ -62,9 +77,7 @@ public class ModeloDAO {
             stmt.setInt(1, modelo.getMotor().getPotencia());
             stmt.setString(2, String.valueOf(modelo.getMotor().getEtipoCombustivel()));
             stmt.setInt(3,modelo.getId());
-//            System.out.println("Potência: " + modelo.getMotor().getPotencia());
-//            System.out.println("Tipo de Combustível: " + modelo.getMotor().getEtipoCombustivel());
-//            System.out.println("ID do Modelo: " + modelo.getId());
+
             stmt.execute();
 
             return true;

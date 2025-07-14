@@ -4,6 +4,7 @@
  */
 package br.edu.ifsc.fln.controller;
 
+import br.edu.ifsc.fln.model.dao.ClienteDAO;
 import br.edu.ifsc.fln.model.dao.CorDAO;
 import br.edu.ifsc.fln.model.dao.MarcaDAO;
 import br.edu.ifsc.fln.model.dao.ModeloDAO;
@@ -38,18 +39,21 @@ public class FXMLAnchorPaneCadastroVeiculoDialogController implements Initializa
     @FXML
     private ComboBox<Cor> cbCor;
 
-    @FXML
-    private ComboBox<Marca> cbMarca;
+//    @FXML
+//    private ComboBox<Marca> cbMarca;
 
     @FXML
     private ComboBox<Modelo> cbModelo;
+
+    @FXML
+    private ComboBox<Cliente> cbCliente;
 
     @FXML
     private TextField tfObservacoes;
 
     @FXML
     private TextField tfPlaca;
-    
+
     private Stage dialogStage;
     private boolean btConfirmarClicked = false;
     private Veiculo veiculo;
@@ -60,6 +64,7 @@ public class FXMLAnchorPaneCadastroVeiculoDialogController implements Initializa
     private final MarcaDAO marcaDAO = new MarcaDAO();
     private final CorDAO corDAO = new CorDAO();
     private final ModeloDAO modeloDAO = new ModeloDAO();
+    private final ClienteDAO clienteDAO = new ClienteDAO();
 
 
     private List<Marca> listaMarca;
@@ -70,6 +75,9 @@ public class FXMLAnchorPaneCadastroVeiculoDialogController implements Initializa
 
     private List<Modelo> listaModelo;
     private ObservableList<Modelo> modeloObservableList;
+
+    private List<Cliente> listaCliente;
+    private ObservableList<Cliente> clienteObservableList;
 
 
     /**
@@ -86,10 +94,13 @@ public class FXMLAnchorPaneCadastroVeiculoDialogController implements Initializa
         modeloDAO.setConnection(connection);
         carregarComboBoxModelo();
 
+        clienteDAO.setConnection(connection);
+        carregarComboBoxCliente();
+
 //        cbCategoria.getItems().addAll(Ecategoria.values());
     }
 
-    public void carregarComboBoxMarca(){
+    public void carregarComboBoxMarca() {
 //        try {
         listaMarca = marcaDAO.listar();
 //        } catch (DAOException ex) {
@@ -101,22 +112,29 @@ public class FXMLAnchorPaneCadastroVeiculoDialogController implements Initializa
         // marcaObservableList - este só "aboserve" o resultado do method observableArrayList ?
 
 //        marcaObservableList.observableArrayList(listaMarca);// por que não?
-        cbMarca.setItems(marcaObservableList);
+//        cbMarca.setItems(marcaObservableList);
     }
 
-    public void carregarComboBoxCor(){
+    public void carregarComboBoxCor() {
         listaCor = corDAO.listar();
 
         corObservableList = FXCollections.observableArrayList(listaCor);
         cbCor.setItems(corObservableList);
     }
 
-    public void carregarComboBoxModelo(){
+    public void carregarComboBoxModelo() {
         listaModelo = modeloDAO.listar();
 
         modeloObservableList = FXCollections.observableArrayList(listaModelo);
         cbModelo.setItems(modeloObservableList);
 
+    }
+
+    public void carregarComboBoxCliente(){
+        listaCliente = clienteDAO.listar();
+
+        clienteObservableList = FXCollections.observableArrayList(listaCliente);
+        cbCliente.setItems(clienteObservableList);
     }
 
     public boolean isBtConfirmarClicked() {
@@ -141,48 +159,80 @@ public class FXMLAnchorPaneCadastroVeiculoDialogController implements Initializa
 
     public void setVeiculo(Veiculo veiculo) {
         this.veiculo = veiculo;
-//        this.tfDescricao.setText(modelo.getDescricao());
+        this.tfObservacoes.setText(veiculo.getObservacoes());
+        this.tfPlaca.setText(veiculo.getPlaca());
+//        this.cbMarca.setValue(veiculo.getModelo());
+        this.cbCor.setValue(veiculo.getCor());
+        this.cbModelo.setValue(veiculo.getModelo());
+        this.cbCliente.setValue(veiculo.getCliente());
     }
-    
 
     @FXML
     public void handleBtConfirmar() {
-        //if (validarEntradaDeDados()) {
-
+        if (validarEntradaDeDados()) {
             veiculo.setPlaca(tfPlaca.getText());
             veiculo.setObservacoes(tfObservacoes.getText());
             veiculo.setCor(cbCor.getSelectionModel().getSelectedItem());
             veiculo.setModelo(cbModelo.getSelectionModel().getSelectedItem());
+            veiculo.setCliente(cbCliente.getSelectionModel().getSelectedItem());
 
 
             btConfirmarClicked = true;
             dialogStage.close();
-        //}
-    }
-    
-    @FXML
-    public void handleBtCancelar() {
-        dialogStage.close();
-    }
-    
-    //todo validar a entrada de dados além de descrição. Adicionar para enum e etc
-//    private boolean validarEntradaDeDados() {
-//        String errorMessage = "";
-//        if (this.tfDescricao.getText() == null || this.tfDescricao.getText().length() == 0) {
-//            errorMessage += "Descrição inválida.\n";
+            }
+        }
+
+        @FXML
+        public void handleBtCancelar () {
+            dialogStage.close();
+        }
+
+    private boolean validarEntradaDeDados() {
+        String errorMessage = "";
+
+        String placa = this.tfPlaca.getText();
+        if (placa == null || placa.trim().isEmpty()) {
+            errorMessage += "Placa inválida (não pode ser vazia).\n";
+        } else {
+            // Define o padrão Regex que aceita os dois formatos de placa
+            String padraoPlaca = "^[A-Z]{3}-?\\d{4}$|^[A-Z]{3}\\d[A-Z]\\d{2}$";
+
+            // Converte a placa digitada para maiúsculas para a verificação
+            String placaMaiuscula = placa.toUpperCase();
+
+            // Verifica se a placa digitada corresponde a um dos padrões
+            if (!placaMaiuscula.matches(padraoPlaca)) {
+                errorMessage += "Formato de placa inválido.\nFormatos aceitos: AAA-1234 ou ABC1D23.\n";
+            }
+        }
+        if (this.tfObservacoes.getText() == null || this.tfPlaca.getText().length() == 0) {
+            errorMessage += "Observações inválidas.\n";
+        }
+        if (this.cbCor.getValue() == null) {
+            errorMessage += "Selecione uma cor\n";
+        }
+//        if (this.cbMarca.getValue() == null) {
+//            errorMessage += "Selecione uma marca\n";
 //        }
-//
-//        if (errorMessage.length() == 0) {
-//            return true;
-//        } else {
-//            //exibindo uma mensagem de erro
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setTitle("Erro no cadastro");
-//            alert.setHeaderText("Corrija os campos inválidos!");
-//            alert.setContentText(errorMessage);
-//            alert.show();
-//            return false;
-//        }
-    //}
-    
-}
+        if (this.cbModelo.getValue() == null) {
+            errorMessage += "Selecione um modelo\n";
+        }
+        if(this.cbCliente.getValue() == null){
+            errorMessage+= "Selecione um Dono do veículo\n";
+        }
+        if (errorMessage.length() == 0) {
+            return true;
+        } else {
+            //exibindo uma mensagem de erro
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro no cadastro");
+            alert.setHeaderText("Corrija os campos inválidos!");
+            alert.setContentText(errorMessage);
+            alert.show();
+            return false;
+        }
+    }
+
+    }
+
+

@@ -4,6 +4,10 @@
  */
 package br.edu.ifsc.fln;
 
+import br.edu.ifsc.fln.model.domain.Cliente;
+import br.edu.ifsc.fln.model.domain.PessoaFisica;
+import br.edu.ifsc.fln.model.domain.PessoaJuridica;
+
 /**
  *
  * @author mpisc
@@ -12,6 +16,21 @@ public class Main {
 
     public static void main(String[] args) {
         JavaFXApp.main(args);
+
+        Cliente cliente = new Cliente() {
+
+        };
+
+        if (cliente instanceof PessoaJuridica){
+            System.out.println("Fisica sem definir.");
+        } else if (cliente instanceof PessoaFisica) {
+            System.out.println("");
+
+        }
     }
+
+
+
+
     
 }

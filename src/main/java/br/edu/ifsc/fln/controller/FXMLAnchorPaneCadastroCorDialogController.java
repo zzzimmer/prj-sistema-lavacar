@@ -83,12 +83,17 @@ public class FXMLAnchorPaneCadastroCorDialogController implements Initializable 
     public void handleBtCancelar() {
         dialogStage.close();
     }
-    
-    //método para validar a entrada de dados
+
     private boolean validarEntradaDeDados() {
         String errorMessage = "";
-        if (this.tfNome.getText() == null || this.tfNome.getText().length() == 0) {
-            errorMessage += "Descrição inválida.\n";
+
+        String nome = this.tfNome.getText();
+
+        if (nome == null || nome.trim().isEmpty()) {
+            errorMessage += "Descrição inválida (não pode ser vazia).\n";
+        }
+        else if (!nome.matches("[a-zA-Z ]+")) {
+            errorMessage += "Descrição inválida (use apenas letras e espaços).\n";
         }
         
         if (errorMessage.length() == 0) {

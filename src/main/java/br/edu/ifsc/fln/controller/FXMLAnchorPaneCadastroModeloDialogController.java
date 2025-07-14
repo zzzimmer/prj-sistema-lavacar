@@ -108,6 +108,10 @@ public class FXMLAnchorPaneCadastroModeloDialogController implements Initializab
     public void setModelo(Modelo modelo) {
         this.modelo = modelo;
         this.tfDescricao.setText(modelo.getDescricao());
+        this.tfMotorPotencia.setText(String.valueOf(modelo.getMotor().getPotencia()));
+        this.cbMarca.setValue(modelo.getMarca());
+        this.cbCategoria.setValue(modelo.getEcategoria());
+        this.cbMotorTipoCombustivel.setValue(modelo.getMotor().getEtipoCombustivel());
     }
     
 
@@ -130,14 +134,41 @@ public class FXMLAnchorPaneCadastroModeloDialogController implements Initializab
     public void handleBtCancelar() {
         dialogStage.close();
     }
-    
-    //todo validar a entrada de dados além de descrição. Adicionar para enum e etc
+
     private boolean validarEntradaDeDados() {
         String errorMessage = "";
-        if (this.tfDescricao.getText() == null || this.tfDescricao.getText().length() == 0) {
-            errorMessage += "Descrição inválida.\n";
+
+        String nome = tfDescricao.getText();
+
+        if (nome == null || nome.trim().isEmpty()) {
+            errorMessage += "Descrição inválida (não pode ser vazia).\n";
         }
-        
+        if (!nome.matches("[a-zA-Z,0-9 ]+")) {
+            errorMessage += "Descrição inválida (use apenas letras e espaços).\n";
+        }
+
+        if (this.cbMarca.getSelectionModel().getSelectedItem() == null) {
+            errorMessage += "Selecione uma marca para o seu modelo.\n";
+
+        } if (this.cbCategoria.getValue() == null) {
+            errorMessage+= "Selecione uma categoria\n";
+
+        } if (this.tfMotorPotencia.getText()== null ||
+                this.tfMotorPotencia.getText().trim().isEmpty()) {
+            errorMessage+= "Indique uma potencia valida\n";
+        } else {
+            try {
+                int potencia = Integer.parseInt(this.tfMotorPotencia.getText());
+                if (potencia < 0){
+                    errorMessage+= "A potencia deve ser positiva\n";
+                }
+            } catch (NumberFormatException e){
+                errorMessage += "Potência inválida (deve ser um número).\n";
+            }
+        } if (cbMotorTipoCombustivel.getValue() == null) {
+            errorMessage+= "Selecione o tipo de combustível";
+        }
+
         if (errorMessage.length() == 0) {
             return true;
         } else {
