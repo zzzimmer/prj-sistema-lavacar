@@ -86,6 +86,35 @@ CREATE TABLE veiculo(
     CONSTRAINT fk_veiculo_cliente FOREIGN KEY (id_cliente) REFERENCES cliente(id)
 ) ENGINE=InnoDB;
 
+CREATE TABLE ordem_servico(
+    numero INT NOT NULL,
+    total DECIMAL(10,2),
+    agenda DATE,
+    desconto DECIMAL(10,2),
+    id_veiculo INT NOT NULL,
+    CONSTRAINT pk_ordem_servico
+                          PRIMARY KEY (numero),
+    CONSTRAINT fk_ordem_servico_cliente
+                          FOREIGN KEY (id_veiculo)
+                          REFERENCES veiculo(id)
+)ENGINE= InnoDB;
+
+CREATE TABLE item_os (
+    id INT NOT NULL,
+    valor_servico DECIMAL(10,2),
+    observacoes VARCHAR(300),
+    id_ordem_servico INT NOT NULL REFERENCES ordem_servico(numero),
+    id_servico INT NOT NULL,
+    CONSTRAINT pk_item_os
+                     PRIMARY KEY (id),
+    CONSTRAINT fk_item_os_ordem_servico
+                     FOREIGN KEY (id_ordem_servico)
+                     REFERENCES ordem_servico(numero),
+    CONSTRAINT fk_item_os_servico
+                     FOREIGN KEY (id_servico)
+                     REFERENCES servico(id)
+)ENGINE= InnoDB;
+
 -- ALTER TABLE `db_lavacar`.`cliente`
 --     CHANGE COLUMN `data_cadastro` `data_cadastro` DATE NULL ;
 --

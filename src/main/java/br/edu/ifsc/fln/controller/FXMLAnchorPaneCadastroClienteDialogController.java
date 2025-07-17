@@ -157,8 +157,6 @@ public class FXMLAnchorPaneCadastroClienteDialogController implements Initializa
 
     @FXML
     public void handleRbPessoaJuridica() {
-//        this.tfPais.setText("");
-//        this.tfPais.setDisable(false);
     }
 
     private boolean validarEntradaDeDados() {

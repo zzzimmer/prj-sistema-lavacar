@@ -86,7 +86,6 @@ public class FXMLAnchorPaneCadastroVeiculoDialogController implements Initializa
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         marcaDAO.setConnection(connection);
-        carregarComboBoxMarca();
 
         corDAO.setConnection(connection);
         carregarComboBoxCor();
@@ -98,21 +97,6 @@ public class FXMLAnchorPaneCadastroVeiculoDialogController implements Initializa
         carregarComboBoxCliente();
 
 //        cbCategoria.getItems().addAll(Ecategoria.values());
-    }
-
-    public void carregarComboBoxMarca() {
-//        try {
-        listaMarca = marcaDAO.listar();
-//        } catch (DAOException ex) {
-//            AlertDialog.exceptionMessage(ex);
-//        }
-        marcaObservableList =
-                FXCollections.observableArrayList(listaMarca); // como esse operador de igualdade funciona?
-        // significa que o retorno do method é um observable list? e como já tem alguem para receber - no caso
-        // marcaObservableList - este só "aboserve" o resultado do method observableArrayList ?
-
-//        marcaObservableList.observableArrayList(listaMarca);// por que não?
-//        cbMarca.setItems(marcaObservableList);
     }
 
     public void carregarComboBoxCor() {

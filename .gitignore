@@ -87,3 +87,17 @@ nb-configuration.xml
 ## Miscellaneous
 ######
 .log
+
+Cadastro de Marca
+    Cadastro de Cor
+    Cadastro de Serviço
+    Cadastro de Modelo com Motor e Enums
+    Cadastro de Veículo
+    Cadastro de Cliente
+    Prazo de entrega: 24/06/2025
+
+01/07 - ItemOs Classe associativa.
+
+08/07 - Exceptions.
+
+15/07 - JasperReport.

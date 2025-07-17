@@ -1,6 +1,7 @@
 package br.edu.ifsc.fln.model.dao;
 
 import br.edu.ifsc.fln.model.domain.Cliente;
+import br.edu.ifsc.fln.model.domain.Cor;
 import br.edu.ifsc.fln.model.domain.PessoaFisica;
 import br.edu.ifsc.fln.model.domain.PessoaJuridica;
 import com.sun.security.jgss.GSSUtil;
@@ -152,7 +153,6 @@ public class ClienteDAO {
 
     private Cliente populateVO(ResultSet rs) throws SQLException {
         Cliente cliente;
-        // eu estava verificando errado a condição de CPF...
         if (rs.getString("cpf") != null && !rs.getString("cpf").isEmpty()) {
             cliente = new PessoaFisica();
             ((PessoaFisica)cliente).setCpf(rs.getString("cpf"));
@@ -168,4 +168,23 @@ public class ClienteDAO {
         cliente.setCelular(rs.getString("celular"));
         return cliente;
     }
+
+    public Cliente buscar (long id){
+        String sql = "SELECT * FROM cliente c "
+                + "LEFT JOIN pessoa_fisica  pf on pf.id_cliente = c.id "
+                + "LEFT JOIN pessoa_juridica pj on pj.id_cliente = c.id WHERE id=?;";
+        Cliente retorno = null;
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setLong(1,id);
+            ResultSet resultado = stmt.executeQuery();
+            if (resultado.next()){
+                retorno = populateVO(resultado);
+            }
+        }catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return retorno;
+    }
+
 }

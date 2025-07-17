@@ -60,7 +60,7 @@ public class FXMLAnchorPaneCadastroVeiculoController implements Initializable {
     private Label lbVeiculoModelo;
 
     @FXML
-    private Label lbVeiculoMarca;
+    private Label lbVeiculoCliente;
 
     @FXML
     private TableColumn<Veiculo, String> tableColumnVeiculoPlaca;
@@ -104,19 +104,15 @@ public class FXMLAnchorPaneCadastroVeiculoController implements Initializable {
             lbVeiculoCor.setText(veiculo.getCor().getNome());
             lbVeiculoObservacoes.setText(veiculo.getObservacoes()); //todo mudar para textArea
             lbVeiculoModelo.setText(String.valueOf(veiculo.getModelo()));
-//            System.out.println(veiculo.getModelo());
-//            lbVeiculoMarca.setText(String.valueOf(veiculo.getModelo().getMarca()));
-//            System.out.println(veiculo.getModelo().getMarca().getNome());
-
-
-
+            lbVeiculoCliente.setText(veiculo.getCliente().getNome());
         } else {
             lbVeiculoId.setText("");
             lbVeiculoPlaca.setText("");
             lbVeiculoCor.setText("");
             lbVeiculoObservacoes.setText("");
+            lbVeiculoModelo.setText("");
+            lbVeiculoCliente.setText("");
         }
-
     }
 
     @FXML

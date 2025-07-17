@@ -62,12 +62,6 @@
             </Label>
             <TextField fx:id="tfEmail" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="tfCelular" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label alignment="CENTER_RIGHT" prefHeight="18.0" prefWidth="102.0" text="País:" GridPane.rowIndex="6">
-               <padding>
-                  <Insets right="5.0" />
-               </padding>
-            </Label>
-            <TextField fx:id="tfPais" disable="true" text="BRASIL" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
                   <Group fx:id="gbTipo" layoutX="14.0" layoutY="5.0">
