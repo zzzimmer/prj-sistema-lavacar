@@ -2,16 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package br.edu.ifsc.fln.controller;
+package br.edu.ifsc.fln.controller.cadastro;
 
-import br.edu.ifsc.fln.model.domain.Ecategoria;
-import br.edu.ifsc.fln.model.domain.Servico;
-import javafx.collections.ObservableList;
+import br.edu.ifsc.fln.model.domain.Marca;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -23,7 +20,7 @@ import java.util.ResourceBundle;
  *
  * @author mpisc
  */
-public class FXMLAnchorPaneCadastroServicoDialogController implements Initializable {
+public class FXMLAnchorPaneCadastroMarcaDialogController implements Initializable {
 
     @FXML
     private Button btCancelar;
@@ -32,32 +29,19 @@ public class FXMLAnchorPaneCadastroServicoDialogController implements Initializa
     private Button btConfirmar;
 
     @FXML
-    private TextField tfDescricao;
+    private TextField tfNome;
 
-    @FXML
-    private TextField tfPontos;
-
-    @FXML
-    private TextField tfValor;
-    
     private Stage dialogStage;
     private boolean btConfirmarClicked = false;
-    private Servico servico;
-
-//    @FXML - Errado.
-//    private ChoiceBox <Ecategoria> cbCategoria = new ChoiceBox<>();
-
-    @FXML
-    private ChoiceBox<Ecategoria> cbCategoria;
-
+    private Marca marca;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        cbCategoria.getItems().addAll(Ecategoria.values()); // Por que tem mais de um value? e valueOf?
-    }       
+        // TODO
+    }
 
     public boolean isBtConfirmarClicked() {
         return btConfirmarClicked;
@@ -75,41 +59,36 @@ public class FXMLAnchorPaneCadastroServicoDialogController implements Initializa
         this.dialogStage = dialogStage;
     }
 
-    public Servico getServico() {
-        return servico;
+    public Marca getMarca() {
+        return marca;
     }
 
-    public void setServico(Servico servico) {
-        this.servico = servico;
-        this.tfDescricao.setText(servico.getDescricao());
-        this.tfValor.setText(String.valueOf(servico.getValor()));
-        this.tfPontos.setText(String.valueOf(servico.getPontos()));
-        this.cbCategoria.setValue(servico.getEcategoria());
+    public void setMarca(Marca marca) {
+        this.marca = marca;
+        this.tfNome.setText(marca.getNome());
+
     }
 
 
     @FXML
     public void handleBtConfirmar() {
         if (validarEntradaDeDados()) {
-            servico.setDescricao(tfDescricao.getText());
-            servico.setValor(Float.parseFloat(tfValor.getText()));
-            servico.setPontos(Integer.parseInt(tfPontos.getText()));
-            servico.setEcategoria(cbCategoria.getValue());
+            marca.setNome(tfNome.getText());
 
             btConfirmarClicked = true;
             dialogStage.close();
         }
     }
-    
+
     @FXML
     public void handleBtCancelar() {
         dialogStage.close();
     }
-    
+
     private boolean validarEntradaDeDados() {
         String errorMessage = "";
 
-        String nome = this.tfDescricao.getText();
+        String nome = this.tfNome.getText();
 
         if (nome == null || nome.trim().isEmpty()) {
             errorMessage += "Descrição inválida (não pode ser vazia).\n";
@@ -117,11 +96,10 @@ public class FXMLAnchorPaneCadastroServicoDialogController implements Initializa
         else if (!nome.matches("[a-zA-Z ]+")) {
             errorMessage += "Descrição inválida (use apenas letras e espaços).\n";
         }
-        
-        if (errorMessage.length() == 0) {
+
+        if (errorMessage.isEmpty()) {
             return true;
         } else {
-            //exibindo uma mensagem de erro
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro no cadastro");
             alert.setHeaderText("Corrija os campos inválidos!");
@@ -130,5 +108,4 @@ public class FXMLAnchorPaneCadastroServicoDialogController implements Initializa
             return false;
         }
     }
-    
 }

@@ -2,12 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package br.edu.ifsc.fln.controller;
+package br.edu.ifsc.fln.controller.cadastro;
 
 import br.edu.ifsc.fln.model.dao.CorDAO;
 import br.edu.ifsc.fln.model.database.Database;
 import br.edu.ifsc.fln.model.database.DatabaseFactory;
-import br.edu.ifsc.fln.model.domain.Cor;
 import br.edu.ifsc.fln.model.domain.Cor;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -144,7 +143,7 @@ public class FXMLAnchorPaneCadastroCorController implements Initializable {
 
     private boolean showFXMLAnchorPaneCadastroCorDialog(Cor cor) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(FXMLAnchorPaneCadastroCorController.class.getResource("/view/FXMLAnchorPaneCadastroCorDialog.fxml"));
+        loader.setLocation(FXMLAnchorPaneCadastroCorController.class.getResource("/view/cadastro/FXMLAnchorPaneCadastroCorDialog.fxml"));
         AnchorPane page = (AnchorPane) loader.load();
 
         //criação de um estágio de diálogo (StageDialog)

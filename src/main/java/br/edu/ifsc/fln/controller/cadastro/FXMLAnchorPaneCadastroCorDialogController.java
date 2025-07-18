@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package br.edu.ifsc.fln.controller;
+package br.edu.ifsc.fln.controller.cadastro;
 
-import br.edu.ifsc.fln.model.domain.Marca;
+import br.edu.ifsc.fln.model.domain.Cor;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
  *
  * @author mpisc
  */
-public class FXMLAnchorPaneCadastroMarcaDialogController implements Initializable {
+public class FXMLAnchorPaneCadastroCorDialogController implements Initializable {
 
     @FXML
     private Button btCancelar;
@@ -30,18 +30,18 @@ public class FXMLAnchorPaneCadastroMarcaDialogController implements Initializabl
 
     @FXML
     private TextField tfNome;
-
+    
     private Stage dialogStage;
     private boolean btConfirmarClicked = false;
-    private Marca marca;
-
+    private Cor cor;
+    
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }
+    }       
 
     public boolean isBtConfirmarClicked() {
         return btConfirmarClicked;
@@ -59,27 +59,26 @@ public class FXMLAnchorPaneCadastroMarcaDialogController implements Initializabl
         this.dialogStage = dialogStage;
     }
 
-    public Marca getMarca() {
-        return marca;
+    public Cor getCor() {
+        return cor;
     }
 
-    public void setMarca(Marca marca) {
-        this.marca = marca;
-        this.tfNome.setText(marca.getNome());
-
+    public void setCor(Cor cor) {
+        this.cor = cor;
+        this.tfNome.setText(cor.getNome());
     }
-
+    
 
     @FXML
     public void handleBtConfirmar() {
         if (validarEntradaDeDados()) {
-            marca.setNome(tfNome.getText());
+            cor.setNome(tfNome.getText());
 
             btConfirmarClicked = true;
             dialogStage.close();
         }
     }
-
+    
     @FXML
     public void handleBtCancelar() {
         dialogStage.close();
@@ -96,10 +95,11 @@ public class FXMLAnchorPaneCadastroMarcaDialogController implements Initializabl
         else if (!nome.matches("[a-zA-Z ]+")) {
             errorMessage += "Descrição inválida (use apenas letras e espaços).\n";
         }
-
-        if (errorMessage.isEmpty()) {
+        
+        if (errorMessage.length() == 0) {
             return true;
         } else {
+            //exibindo uma mensagem de erro
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro no cadastro");
             alert.setHeaderText("Corrija os campos inválidos!");
@@ -108,4 +108,5 @@ public class FXMLAnchorPaneCadastroMarcaDialogController implements Initializabl
             return false;
         }
     }
+    
 }

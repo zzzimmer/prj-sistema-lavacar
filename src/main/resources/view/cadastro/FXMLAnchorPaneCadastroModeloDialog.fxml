@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="241.0" prefWidth="448.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsc.fln.controller.FXMLAnchorPaneCadastroModeloDialogController">
+<AnchorPane id="AnchorPane" prefHeight="241.0" prefWidth="448.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsc.fln.controller.cadastro.FXMLAnchorPaneCadastroModeloDialogController">
    <children>
       <GridPane layoutX="32.0" layoutY="11.0" prefHeight="179.0" prefWidth="375.0">
         <columnConstraints>

@@ -7,6 +7,15 @@ public class Servico {
     private int pontos;
     private Ecategoria categoria;
 
+    public Servico(){};
+
+    public Servico (int id, String descricao, double valor, int pontos){
+        this.id = id;
+        this.descricao = descricao;
+        this.valor = valor;
+        this.pontos = pontos;
+    }
+
     public int getId() {
         return id;
     }

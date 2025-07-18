@@ -44,37 +44,37 @@ public class FXMLVBoxMainAppController implements Initializable {
 
     @FXML
     public void handleMenuItemCadastroMarca() throws IOException {
-        AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/FXMLAnchorPaneCadastroMarca.fxml"));
+        AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/cadastro/FXMLAnchorPaneCadastroMarca.fxml"));
         anchorPane.getChildren().setAll(a);
     }
 
     @FXML
     public void handleMenuItemCadastroServico() throws IOException {
-        AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/FXMLAnchorPaneCadastroServico.fxml"));
+        AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/cadastro/FXMLAnchorPaneCadastroServico.fxml"));
         anchorPane.getChildren().setAll(a);
     }
 
     @FXML
     public void handleMenuItemCadastroCor() throws IOException {
-        AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/FXMLAnchorPaneCadastroCor.fxml"));
+        AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/cadastro/FXMLAnchorPaneCadastroCor.fxml"));
         anchorPane.getChildren().setAll(a);
     }
 
     @FXML
     public void handleMenuItemCadastroModelo() throws IOException {
-        AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/FXMLAnchorPaneCadastroModelo.fxml"));
+        AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/cadastro/FXMLAnchorPaneCadastroModelo.fxml"));
         anchorPane.getChildren().setAll(a);
     }
 
     @FXML
     public void handleMenuItemCadastroVeiculo() throws IOException {
-        AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/FXMLAnchorPaneCadastroVeiculo.fxml"));
+        AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/cadastro/FXMLAnchorPaneCadastroVeiculo.fxml"));
         anchorPane.getChildren().setAll(a);
     }
 
     @FXML
     public void handleMenuItemCadastroCliente() throws IOException {
-        AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/FXMLAnchorPaneCadastroCliente.fxml"));
+        AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/cadastro/FXMLAnchorPaneCadastroCliente.fxml"));
         anchorPane.getChildren().setAll(a);
     }
     @FXML
@@ -83,7 +83,7 @@ public class FXMLVBoxMainAppController implements Initializable {
     }     
     
     @FXML
-    public void handleMenuItemProcessoVenda() throws IOException {
+    public void handleMenuItemProcessoOrdemServico() throws IOException {
         //TODO not implemented yet
     }     
     

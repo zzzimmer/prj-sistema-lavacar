@@ -2,13 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package br.edu.ifsc.fln.controller;
+package br.edu.ifsc.fln.controller.cadastro;
 
-import br.edu.ifsc.fln.model.domain.Cor;
+import br.edu.ifsc.fln.model.domain.Ecategoria;
+import br.edu.ifsc.fln.model.domain.Servico;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -20,7 +22,7 @@ import java.util.ResourceBundle;
  *
  * @author mpisc
  */
-public class FXMLAnchorPaneCadastroCorDialogController implements Initializable {
+public class FXMLAnchorPaneCadastroServicoDialogController implements Initializable {
 
     @FXML
     private Button btCancelar;
@@ -29,18 +31,31 @@ public class FXMLAnchorPaneCadastroCorDialogController implements Initializable 
     private Button btConfirmar;
 
     @FXML
-    private TextField tfNome;
+    private TextField tfDescricao;
+
+    @FXML
+    private TextField tfPontos;
+
+    @FXML
+    private TextField tfValor;
     
     private Stage dialogStage;
     private boolean btConfirmarClicked = false;
-    private Cor cor;
-    
+    private Servico servico;
+
+//    @FXML - Errado.
+//    private ChoiceBox <Ecategoria> cbCategoria = new ChoiceBox<>();
+
+    @FXML
+    private ChoiceBox<Ecategoria> cbCategoria;
+
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        cbCategoria.getItems().addAll(Ecategoria.values()); // Por que tem mais de um value? e valueOf?
     }       
 
     public boolean isBtConfirmarClicked() {
@@ -59,20 +74,26 @@ public class FXMLAnchorPaneCadastroCorDialogController implements Initializable 
         this.dialogStage = dialogStage;
     }
 
-    public Cor getCor() {
-        return cor;
+    public Servico getServico() {
+        return servico;
     }
 
-    public void setCor(Cor cor) {
-        this.cor = cor;
-        this.tfNome.setText(cor.getNome());
+    public void setServico(Servico servico) {
+        this.servico = servico;
+        this.tfDescricao.setText(servico.getDescricao());
+        this.tfValor.setText(String.valueOf(servico.getValor()));
+        this.tfPontos.setText(String.valueOf(servico.getPontos()));
+        this.cbCategoria.setValue(servico.getEcategoria());
     }
-    
+
 
     @FXML
     public void handleBtConfirmar() {
         if (validarEntradaDeDados()) {
-            cor.setNome(tfNome.getText());
+            servico.setDescricao(tfDescricao.getText());
+            servico.setValor(Float.parseFloat(tfValor.getText()));
+            servico.setPontos(Integer.parseInt(tfPontos.getText()));
+            servico.setEcategoria(cbCategoria.getValue());
 
             btConfirmarClicked = true;
             dialogStage.close();
@@ -83,11 +104,11 @@ public class FXMLAnchorPaneCadastroCorDialogController implements Initializable 
     public void handleBtCancelar() {
         dialogStage.close();
     }
-
+    
     private boolean validarEntradaDeDados() {
         String errorMessage = "";
 
-        String nome = this.tfNome.getText();
+        String nome = this.tfDescricao.getText();
 
         if (nome == null || nome.trim().isEmpty()) {
             errorMessage += "Descrição inválida (não pode ser vazia).\n";

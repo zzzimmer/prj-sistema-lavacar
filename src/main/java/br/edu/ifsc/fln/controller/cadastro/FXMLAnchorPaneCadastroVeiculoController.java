@@ -2,13 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package br.edu.ifsc.fln.controller;
+package br.edu.ifsc.fln.controller.cadastro;
 
-import br.edu.ifsc.fln.model.dao.ModeloDAO;
 import br.edu.ifsc.fln.model.dao.VeiculoDAO;
 import br.edu.ifsc.fln.model.database.Database;
 import br.edu.ifsc.fln.model.database.DatabaseFactory;
-import br.edu.ifsc.fln.model.domain.Modelo;
 import br.edu.ifsc.fln.model.domain.Veiculo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -160,7 +158,7 @@ public class FXMLAnchorPaneCadastroVeiculoController implements Initializable {
 
     private boolean showFXMLAnchorPaneCadastroVeiculoDialog(Veiculo veiculo) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(FXMLAnchorPaneCadastroVeiculoController.class.getResource("/view/FXMLAnchorPaneCadastroVeiculoDialog.fxml"));
+        loader.setLocation(FXMLAnchorPaneCadastroVeiculoController.class.getResource("/view/cadastro/FXMLAnchorPaneCadastroVeiculoDialog.fxml"));
         AnchorPane page = (AnchorPane) loader.load();
 
         //criação de um estágio de diálogo (StageDialog)

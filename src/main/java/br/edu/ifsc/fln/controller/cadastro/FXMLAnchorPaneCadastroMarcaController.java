@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package br.edu.ifsc.fln.controller;
+package br.edu.ifsc.fln.controller.cadastro;
 
 import br.edu.ifsc.fln.model.dao.MarcaDAO;
 import br.edu.ifsc.fln.model.database.Database;
@@ -134,7 +134,7 @@ public class  FXMLAnchorPaneCadastroMarcaController implements Initializable {
 
     private boolean showFXMLAnchorPaneCadastroMarcaDialog(Marca marca) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(FXMLAnchorPaneCadastroMarcaController.class.getResource("/view/FXMLAnchorPaneCadastroMarcaDialog.fxml"));
+        loader.setLocation(FXMLAnchorPaneCadastroMarcaController.class.getResource("/view/cadastro/FXMLAnchorPaneCadastroMarcaDialog.fxml"));
         AnchorPane page = (AnchorPane) loader.load();
 
         //criação de um estágio de diálogo (StageDialog)
