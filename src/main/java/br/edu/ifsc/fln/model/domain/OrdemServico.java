@@ -54,6 +54,14 @@ public class OrdemServico {
         this.status = status;
     }
 
+    public Veiculo getVeiculo() {
+        return veiculo;
+    }
+
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
+    }
+
     public List<ItemOS> getListServicos() {
         return listServicos;
     }

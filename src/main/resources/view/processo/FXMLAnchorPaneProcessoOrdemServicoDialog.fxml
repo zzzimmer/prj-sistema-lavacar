@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="405.0" prefWidth="465.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsc.fln.controller.FXMLAnchorPaneProcessoVendaDialogController">
+<AnchorPane id="AnchorPane" prefHeight="405.0" prefWidth="465.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsc.fln.controller.FXMLAnchorPaneProcessoVendaDialogController">
    <children>
       <GridPane layoutX="23.0" layoutY="22.0" prefHeight="323.0" prefWidth="418.0">
         <columnConstraints>
@@ -67,7 +67,7 @@
                   <Insets right="5.0" />
                </GridPane.margin>
             </Label>
-            <ComboBox fx:id="comboBoxClientes" prefHeight="25.0" prefWidth="365.0" promptText="Selecione o cliente..." GridPane.columnIndex="1" />
+            <ComboBox fx:id="comboBoxVeiculoPlaca" prefHeight="25.0" prefWidth="365.0" promptText="Selecione a Placa..." GridPane.columnIndex="1" />
             <DatePicker fx:id="datePickerData" prefHeight="25.0" prefWidth="355.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <CheckBox fx:id="checkBoxPago" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TableView fx:id="tableViewItensDeVenda" onMouseClicked="#handleTableViewMouseClicked" prefHeight="200.0" prefWidth="367.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
