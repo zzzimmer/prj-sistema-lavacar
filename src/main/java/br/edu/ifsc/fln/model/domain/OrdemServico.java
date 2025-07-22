@@ -1,5 +1,6 @@
 package br.edu.ifsc.fln.model.domain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 public class OrdemServico {
     private long numero;
     private double total;
-    private Date agenda;
+    private LocalDate agenda;
     private double desconto;
     private EStatus status;
 
@@ -23,18 +24,21 @@ public class OrdemServico {
     }
 
     public double getTotal() {
-        return total;
+        double soma = listServicos.stream()
+                .mapToDouble(item -> item.getServico().getValor())
+                .sum();
+        return soma - desconto;
     }
 
     public void setTotal(double total) {
         this.total = total;
     }
 
-    public Date getAgenda() {
+    public LocalDate getAgenda() {
         return agenda;
     }
 
-    public void setAgenda(Date agenda) {
+    public void setAgenda(LocalDate agenda) {
         this.agenda = agenda;
     }
 
@@ -64,6 +68,10 @@ public class OrdemServico {
 
     public List<ItemOS> getListServicos() {
         return listServicos;
+    }
+
+    public void setListServicos(List<ItemOS> listServicos) {
+        this.listServicos = listServicos;
     }
 
     public void add(ItemOS itemOS){//faz a amarração. O método adiciona um ItemOS (Servico que sera consumido)

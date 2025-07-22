@@ -108,6 +108,7 @@ public class ServicoDAO {
             if (resultSet.next()){
                 retorno.setId(resultSet.getInt("id"));
                 retorno.setDescricao(resultSet.getString("descricao"));
+                retorno.setValor(resultSet.getDouble("valor"));
             }
         } catch (SQLException ex){
             Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);

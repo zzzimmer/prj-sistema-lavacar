@@ -114,7 +114,19 @@ CREATE TABLE item_os (
                          CONSTRAINT fk_item_os_servico
                              FOREIGN KEY (id_servico)
                                  REFERENCES servico(id)
+
 )ENGINE= InnoDB;
+
+USE db_lavacar;
+
+ALTER TABLE item_os
+DROP FOREIGN KEY fk_item_os_ordem_servico;
+
+ALTER TABLE item_os
+    ADD CONSTRAINT fk_item_os_ordem_servico -- Pode ser o mesmo nome ou um novo
+        FOREIGN KEY (id_ordem_servico)
+            REFERENCES ordem_servico(numero) -- Verifique se a tabela e a coluna de referência estão corretas
+            ON DELETE CASCADE;
 
 
 -- ALTER TABLE `db_lavacar`.`cliente`

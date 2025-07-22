@@ -1,11 +1,20 @@
 package br.edu.ifsc.fln.model.domain;
 
 public class ItemOS {
+    private int id;
     private double valorServico;
     private String observacoes;
 
     private Servico servico;
     private OrdemServico ordemServico;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Servico getServico() {
         return servico;
@@ -27,9 +36,8 @@ public class ItemOS {
         return valorServico;
     }
 
-    public void setValorServico() {
-        valorServico = servico.getValor(); // para que exista valor, é necessário existir serviço. Diferente aqui
-        //this.valorServico = valorServico;
+    public void setValorServico(Double valorServico) {
+        this.valorServico = valorServico;
     }
 
     public String getObservacoes() {
