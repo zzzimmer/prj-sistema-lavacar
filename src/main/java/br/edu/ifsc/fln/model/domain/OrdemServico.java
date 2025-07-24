@@ -1,8 +1,6 @@
 package br.edu.ifsc.fln.model.domain;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class OrdemServico {
@@ -12,7 +10,7 @@ public class OrdemServico {
     private double desconto;
     private EStatus status;
 
-    private List <ItemOS> listServicos = new ArrayList<>();
+    private List <ItemOS> ListItemOs;
     private Veiculo veiculo;
 
     public long getNumero() {
@@ -24,8 +22,8 @@ public class OrdemServico {
     }
 
     public double getTotal() {
-        double soma = listServicos.stream()
-                .mapToDouble(item -> item.getServico().getValor())
+        double soma = ListItemOs.stream()
+                .mapToDouble(item -> item.getValorServico())
                 .sum();
         return soma - desconto;
     }
@@ -66,28 +64,28 @@ public class OrdemServico {
         this.veiculo = veiculo;
     }
 
-    public List<ItemOS> getListServicos() {
-        return listServicos;
+    public List<ItemOS> getListItemOs() {
+        return ListItemOs;
     }
 
-    public void setListServicos(List<ItemOS> listServicos) {
-        this.listServicos = listServicos;
+    public void setListItemOs(List<ItemOS> listItemOs) {
+        this.ListItemOs = listItemOs;
     }
 
     public void add(ItemOS itemOS){//faz a amarração. O método adiciona um ItemOS (Servico que sera consumido)
         // a lista da Ordem de Servico. E já adiciona, no ItemOS, set desta Ordem de servico.
-        listServicos.add(itemOS);
+        ListItemOs.add(itemOS);
         itemOS.setOrdemServico(this);
     }
 
     public void remove(ItemOS itemOS){
-        listServicos.remove(itemOS);
+        ListItemOs.remove(itemOS);
         itemOS.setOrdemServico(null);
     }
 
     public double calcularServico(){
         double valor = 0.0;
-        for (ItemOS itemOS: listServicos){
+        for (ItemOS itemOS: ListItemOs){
             valor += itemOS.getValorServico();
         }
         return valor;

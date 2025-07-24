@@ -99,5 +99,13 @@ public class FXMLVBoxMainAppController implements Initializable {
     }
 
 
+    //todo crud completo e correto
+    //todo o valor de cada serviço precisa estar associado a referida categoria via valor base
+    //todo verificar bancos de dados
+    //todo exceptions
+    //todo relatorios
+    //todo gráficos
+
+
 
 }

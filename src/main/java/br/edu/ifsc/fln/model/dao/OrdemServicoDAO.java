@@ -1,11 +1,9 @@
 package br.edu.ifsc.fln.model.dao;
 
 import br.edu.ifsc.fln.model.domain.*;
-import br.edu.ifsc.fln.utils.AlertDialog;
 
 import java.math.BigDecimal;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,7 +22,7 @@ public class OrdemServicoDAO {
     }
 
 
-    public boolean inserir(OrdemServico ordemServico) {
+    public boolean inserir(OrdemServico ordemServico) { //todo 1
         String sql = "INSERT INTO ordem_servico(total,agenda,desconto,id_veiculo,status) VALUES(?,?,?,?,?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -38,22 +36,25 @@ public class OrdemServicoDAO {
                 stmt.setString(5, ordemServico.getStatus().name());
             }
 
+            System.out.println(ordemServico.getListItemOs().getFirst().toString());
+
+
             stmt.execute();
             ItemOSDAO itemOSDAO = new ItemOSDAO();
             itemOSDAO.setConnection(connection);
 
-            for (ItemOS itemOS : ordemServico.getListServicos()){
-                System.out.println("----------------");
-                System.out.println(itemOS.getId());
-                System.out.println(itemOS.getValorServico());
-                System.out.println(itemOS.getObservacoes());
-                System.out.println(itemOS.getOrdemServico().getNumero());
-                System.out.println(itemOS.getServico().getId());
-            }
-
-            for (ItemOS itemOS: ordemServico.getListServicos()){
+            for (ItemOS itemOS: ordemServico.getListItemOs()){
+                itemOS.setOrdemServico(this.buscarUltimaOs());
                 itemOSDAO.inserir(itemOS);
             }
+//
+//            for (ItemOS itemOS : ordemServico.getListServicos()){
+//                System.out.println("----------------");
+////                System.out.println(itemOS.getObservacoes());
+//                System.out.println(itemOS.getOrdemServico().getNumero());
+//                System.out.println(itemOS.getServico().getId());
+//            }
+
             connection.commit();
             connection.setAutoCommit(true);
             return true;
@@ -66,7 +67,7 @@ public class OrdemServicoDAO {
             Logger.getLogger(OrdemServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        //todo adicionar agendamento
+
         }
 
     public boolean alterar(OrdemServico ordemServico) {
@@ -157,7 +158,7 @@ public class OrdemServicoDAO {
                 itemOSDAO.setConnection(connection);
                 itemOSList = itemOSDAO.listarPorOS(ordemServico);
 
-                ordemServico.setListServicos(itemOSList);
+                ordemServico.setListItemOs(itemOSList);
 
                 retorno.add(ordemServico);
             }
@@ -167,6 +168,54 @@ public class OrdemServicoDAO {
         return retorno;
     }
 
+    public OrdemServico buscarUltimaOs(){
+        String sql = "SELECT max(numero) as max FROM ordem_servico";
+
+        OrdemServico retorno = new OrdemServico();
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet resultado = stmt.executeQuery();
+
+            if (resultado.next()){
+                retorno.setNumero(resultado.getLong("max"));
+                return retorno;
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(OrdemServicoDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return retorno;
+    }
+
+    public boolean remover(OrdemServico ordemServico) {
+        String sql = "DELETE FROM ordem_servico WHERE id=?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            try {
+                connection.setAutoCommit(false);
+                ItemOSDAO itemOSDAO = new ItemOSDAO();
+                itemOSDAO.setConnection(connection);
+
+                for (ItemOS itemOS: ordemServico.getListItemOs()){
+                    itemOSDAO.remover(itemOS);
+                }
+                stmt.setLong(1, ordemServico.getNumero());
+                stmt.execute();
+                connection.commit();
+            } catch (SQLException exc) {
+                try {
+                    connection.rollback();
+                } catch (SQLException exc1) {
+                    Logger.getLogger(ItemOSDAO.class.getName()).log(Level.SEVERE, null, exc1);
+                }
+                Logger.getLogger(OrdemServicoDAO.class.getName()).log(Level.SEVERE, null, exc);
+            }
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(OrdemServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
 
 
 

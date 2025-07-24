@@ -17,7 +17,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -92,6 +91,9 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
     @FXML
     private TextField textFieldValor;
 
+    @FXML
+    private TextField textFieldValorEscolhido;
+
     private List<Veiculo> listaVeiculos;
     private List<Servico> listaServicos;
     private ObservableList<Veiculo> observableListVeiculos;
@@ -118,11 +120,12 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
         carregarComboBoxVeiculos();
         carregarComboBoxServicos();
         carregarChoiceBoxSituacao();
-        setFocusLostHandle();
+        setFocusLostHandle(); //todo aqui da para implementar a aplicação do desconto também.
         configurarComboBoxVeiculo();
         configurarCampoCliente();
         configurarTableView();
-        datePickerData.setValue(LocalDate.now());
+        configurarValorSugerido();
+        datePickerData.setValue(LocalDate.now()); // isso ta aqui porque foi o jeito de funcional. Tava vindo um NPE
 
         // Inicializar a ObservableList da tabela
         observableListItemOs = FXCollections.observableArrayList();
@@ -163,6 +166,44 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
         });
     } // atualiza o valor total da OS
 
+    private void configurarValorSugerido() {
+        // Variável para controlar se o valor foi modificado manualmente
+        final boolean[] valorModificadoManualmente = {false};
+
+        // Listener para quando seleciona um serviço no combo
+        comboBoxServico.getSelectionModel().selectedItemProperty().addListener((ov, oldV, newV) -> {
+            if (newV != null && !valorModificadoManualmente[0]) {
+                // Só sugere o valor se não foi modificado manualmente
+                textFieldValorEscolhido.setText(String.valueOf(newV.getValor()));
+            }
+        });
+
+        // Listener para detectar quando o usuário modifica o valor manualmente
+        textFieldValorEscolhido.focusedProperty().addListener((ov, oldV, newV) -> {
+            if (!newV) { // Perdeu o foco
+                // Verifica se o valor foi alterado manualmente
+                if (comboBoxServico.getSelectionModel().getSelectedItem() != null) {
+                    String valorSugerido = String.valueOf(comboBoxServico.getSelectionModel().getSelectedItem().getValor());
+                    String valorAtual = textFieldValorEscolhido.getText();
+
+                    // Se o valor atual é diferente do sugerido, marca como modificado manualmente
+                    if (!valorSugerido.equals(valorAtual)) {
+                        valorModificadoManualmente[0] = true;
+                    }
+                }
+            }
+        });
+    }
+
+
+
+    private void adicionarValorSugerido(){
+
+        if (comboBoxServico.getSelectionModel().getSelectedItem() != null){
+            textFieldValorEscolhido.setText(String.valueOf(comboBoxServico.getSelectionModel().getSelectedItem().getValor()));
+        }
+    }
+
     private void configurarCampoCliente() {
         textFieldCliente.setEditable(false);
         textFieldCliente.setStyle(" -fx-alignment: center;");
@@ -193,7 +234,8 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
                 return new SimpleStringProperty(item.getServico().getDescricao());
             }
             return new SimpleStringProperty("");
-        });
+        }
+        );
 
         tableColumnObs.setCellValueFactory(cellData -> {
             ItemOS item = cellData.getValue();
@@ -206,7 +248,8 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
             double valor = 0.0;
 
             if (item.getServico() != null ) {
-                valor = item.getServico().getValor();
+//                valor = item.getServico().getValor();
+                valor = item.getValorServico();
             }
 
             return new SimpleObjectProperty<>(valor);
@@ -225,73 +268,37 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
         });
     }
 
-    /**
-     * @return the dialogStage
-     */
-    public Stage getDialogStage() {
-        return dialogStage;
-    }
 
-    /**
-     * @param dialogStage the dialogStage to set
-     */
-    public void setDialogStage(Stage dialogStage) {
-        this.dialogStage = dialogStage;
-    }
 
-    /**
-     * @return the buttonConfirmarClicked
-     */
-    public boolean isButtonConfirmarClicked() {
-        return buttonConfirmarClicked;
-    }
-
-    /**
-     * @param buttonConfirmarClicked the buttonConfirmarClicked to set
-     */
-    public void setButtonConfirmarClicked(boolean buttonConfirmarClicked) {
-        this.buttonConfirmarClicked = buttonConfirmarClicked;
-    }
-
-    public OrdemServico getOrdemServico() {
-        return ordemServico;
-    }
-
-    public void setOrdemServico(OrdemServico ordemServico) {
+    public void setOrdemServico(OrdemServico ordemServico) { //todo 13 aquele objeto executa esse método
+        //todo 14 - do jeito que esse method esta, ele serve para alterar.
         this.ordemServico = ordemServico;
 
-        if (ordemServico != null) {
+            if (ordemServico.getNumero() != 0) { //todo por que diferente de zero?
+                comboBoxVeiculoPlaca.getSelectionModel().select(this.ordemServico.getVeiculo());
 
-            if (ordemServico.getListServicos() == null) {
-                ordemServico.setListServicos(new ArrayList<>());
-            }
+                datePickerData.setValue(this.ordemServico.getAgenda());
 
-            if (ordemServico.getNumero() != 0) {
-                comboBoxVeiculoPlaca.getSelectionModel().select(ordemServico.getVeiculo());
-                datePickerData.setValue(ordemServico.getAgenda());
+                choiceBoxSituacao.getSelectionModel().select(this.ordemServico.getStatus());
 
-                choiceBoxSituacao.getSelectionModel().select(ordemServico.getStatus());
-
-                observableListItemOs.clear();
-//                observableListItemOs.addAll(ordemServico.getListServicos());
+//                observableListItemOs.clear();
+                observableListItemOs.addAll(ordemServico.getListItemOs());
                 observableListItemOs = FXCollections.observableArrayList(
-                        this.ordemServico.getListServicos()
+                        this.ordemServico.getListItemOs()
                 );
 
                 tableViewItensOrdemServico.setItems(observableListItemOs);
 
-                textFieldValor.setText(String.format("%.2f", ordemServico.getTotal()));
-                textFieldDesconto.setText(String.format("%.2f", ordemServico.getDesconto()));
+                textFieldValor.setText(String.format("%.2f", this.ordemServico.getTotal()));
+                textFieldDesconto.setText(String.format("%.2f", this.ordemServico.getDesconto()));
 
                 if (ordemServico.getVeiculo() != null &&
                         ordemServico.getVeiculo().getCliente() != null) {
-                    textFieldCliente.setText(ordemServico.getVeiculo().getCliente().getNome());
+                    textFieldCliente.setText(this.ordemServico.getVeiculo().getCliente().getNome());
                 }
-            } else {
-                // Nova ordem de serviço - limpar campos
-//                limparTodosCampos();
+
             }
-        }
+
     }
 
     @FXML
@@ -326,11 +333,19 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
             itemOS.setObservacoes(textFieldObsServico.getText().trim());
             itemOS.setOrdemServico(ordemServico);
 
+            double valor = Double.parseDouble(textFieldValorEscolhido.getText());
+            if (itemOS.getServico().getValor() != valor ){
+                itemOS.setValorServico(valor);
+            }else {
+                itemOS.setValorServico(itemOS.getServico().getValor());
+            };
+
             // Adicionar a lista da ordem de serviço
-            if (ordemServico.getListServicos() == null) {
-                ordemServico.setListServicos(new ArrayList<>());
+            if (ordemServico.getListItemOs() == null) {
+                ordemServico.setListItemOs(new ArrayList<>());
             }
-            ordemServico.getListServicos().add(itemOS);
+            ordemServico.getListItemOs().add(itemOS);
+
 
             // Atualizar a ObservableList da tabela
             observableListItemOs.add(itemOS);
@@ -348,7 +363,7 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
     @FXML
     public void handleLimparServicos() {
         // limpa lista do domínio
-        ordemServico.getListServicos().clear();
+        ordemServico.getListItemOs().clear();
         // limpa tabela
         observableListItemOs.clear();
         // zera desconto e valor
@@ -361,15 +376,26 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
     }
 
     @FXML
-    public void handleButtonConfirmar() {
+    public void handleButtonConfirmar() { //todo 15 tendo a instancia ...ServiceDialogController instanciado seus objetos como comboBoxVeiculoPlaca
+        //datePicker, observableListItemOs, choiceBoxSituacao... o method confirmar passa o que esses objetos capturam em valor/outros objetos
+        // comoo veículo etc
+        // para a instância de ordemServico de ...ServiceDialogController.
+
         ordemServico.setVeiculo(comboBoxVeiculoPlaca.getSelectionModel().getSelectedItem());
         ordemServico.setAgenda(datePickerData.getValue());
 
-        ordemServico.setListServicos(new ArrayList<>(observableListItemOs));
+        //Era assim
+//        ordemServico.setListServicos(new ArrayList<>(observableListItemOs));
+//        ordemServico.setListServicos(observableListItemOs);
+        ordemServico.setListItemOs(observableListItemOs);
+
+//        System.out.println("------aki"); passou
+//        System.out.println(ordemServico.getListItemOs().getFirst().getServico().getValor());
+
 
         ordemServico.setStatus(choiceBoxSituacao.getValue());
 
-
+        //todo 16, retorna para -->
         buttonConfirmarClicked = true;
         dialogStage.close();
     }
@@ -404,6 +430,7 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
         comboBoxServico.getSelectionModel().clearSelection();
         textFieldObsServico.setText("");
         comboBoxServico.requestFocus();
+        textFieldValorEscolhido.setText("");
     }
 
     private void limparTodosCampos() {
@@ -426,5 +453,37 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
         alert.setHeaderText(null);
         alert.setContentText(mensagem);
         alert.showAndWait();
+    }
+
+    /**
+     * @return the dialogStage
+     */
+    public Stage getDialogStage() {
+        return dialogStage;
+    }
+
+    /**
+     * @param dialogStage the dialogStage to set
+     */
+    public void setDialogStage(Stage dialogStage) {
+        this.dialogStage = dialogStage;
+    }
+
+    /**
+     * @return the buttonConfirmarClicked
+     */
+    public boolean isButtonConfirmarClicked() {
+        return buttonConfirmarClicked;
+    }
+
+    /**
+     * @param buttonConfirmarClicked the buttonConfirmarClicked to set
+     */
+    public void setButtonConfirmarClicked(boolean buttonConfirmarClicked) {
+        this.buttonConfirmarClicked = buttonConfirmarClicked;
+    }
+
+    public OrdemServico getOrdemServico() {
+        return ordemServico;
     }
 }

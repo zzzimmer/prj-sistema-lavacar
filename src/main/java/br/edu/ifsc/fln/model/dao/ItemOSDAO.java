@@ -80,6 +80,19 @@ public class ItemOSDAO {
         return retorno;
     }
 
+    public boolean remover(ItemOS itemOS) {
+        String sql = "DELETE FROM item_os WHERE id=?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, itemOS.getId());
+            stmt.execute();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemOSDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
 
 
 

@@ -98,8 +98,9 @@ public class VeiculoDAO {
             stmt.setInt(1,id);
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()){
-                retorno.setId(resultSet.getInt("id"));
-                retorno.setPlaca(resultSet.getString("placa"));
+//                retorno.setId(resultSet.getInt("id"));
+//                retorno.setPlaca(resultSet.getString("placa"));
+                retorno = populateVO(resultSet);
             }
         } catch (SQLException ex){
             Logger.getLogger(VeiculoDAO.class.getName()).log(Level.SEVERE, null, ex);

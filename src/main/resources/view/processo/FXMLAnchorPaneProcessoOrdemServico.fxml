@@ -98,6 +98,7 @@
 <!--                        <Button fx:id="buttonRemover" layoutX="141.0" mnemonicParsing="false" onAction="#handleButtonRemover" text="Remover" />-->
                      </children>
                   </Group>
+<!--                  <Button fx:id="buttonRemover" layoutX="164.0" layoutY="336.0" mnemonicParsing="false" onAction="#handleButtonRemover" text="Remover" />-->
                </children>
             </AnchorPane>
          </items>
