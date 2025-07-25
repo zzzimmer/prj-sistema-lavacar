@@ -149,7 +149,7 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
         choiceBoxSituacao.getSelectionModel().select(0);
     }
 
-    private void setFocusLostHandle() {
+    private void setFocusLostHandle() { //todo também entender melhor como esse funciona
         textFieldDesconto.focusedProperty().addListener((ov, oldV, newV) -> {
             if (!newV) {
                 if (textFieldDesconto.getText() != null && !textFieldDesconto.getText().isEmpty()) {
@@ -166,7 +166,7 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
         });
     } // atualiza o valor total da OS
 
-    private void configurarValorSugerido() {
+    private void configurarValorSugerido() { //todo entender melhor como isso funciona
         // Variável para controlar se o valor foi modificado manualmente
         final boolean[] valorModificadoManualmente = {false};
 
@@ -195,14 +195,6 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
         });
     }
 
-
-
-    private void adicionarValorSugerido(){
-
-        if (comboBoxServico.getSelectionModel().getSelectedItem() != null){
-            textFieldValorEscolhido.setText(String.valueOf(comboBoxServico.getSelectionModel().getSelectedItem().getValor()));
-        }
-    }
 
     private void configurarCampoCliente() {
         textFieldCliente.setEditable(false);
@@ -316,10 +308,6 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
             return;
         }
 
-        if (ordemServico == null) {
-            mostrarAlerta("Erro", "Ordem de serviço não foi inicializada!");
-            return;
-        }
 
         try {
             // Obter o serviço selecionado
@@ -353,6 +341,7 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
             // Atualizar o valor total
             atualizarValorTotal();
             limparCamposEntrada();
+            configurarValorSugerido();
 
         } catch (Exception e) {
             mostrarAlerta("Erro", "Erro ao adicionar serviço: " + e.getMessage());
