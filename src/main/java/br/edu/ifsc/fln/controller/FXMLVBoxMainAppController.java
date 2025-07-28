@@ -28,7 +28,7 @@ public class FXMLVBoxMainAppController implements Initializable {
     @FXML
     private MenuItem menuItemProcessoEstoque;
     @FXML
-    private MenuItem menuItemGraficoVendaPorMes;
+    private MenuItem menuItemGraficoOrdemServicoPorMes;
     @FXML
     private MenuItem menuItemRelatorioEstoque;
 
@@ -89,9 +89,10 @@ public class FXMLVBoxMainAppController implements Initializable {
     }     
     
     @FXML
-    public void handleMenuItemGraficosVendasPorMes() throws IOException {
-        //TODO not implemented yet
-    } 
+    public void handleMenuItemGraficosOrdemServicoPorMes() throws IOException {
+        AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/graficos/FXMLAnchorPaneGraficosOrdenServicoPorMes.fxml"));
+        anchorPane.getChildren().setAll(a);
+    }
     
     @FXML
     public void handleMenuItemRelatorioEstoqueProdutos() throws IOException {
@@ -101,10 +102,10 @@ public class FXMLVBoxMainAppController implements Initializable {
 
     //todo crud completo e correto
     //todo o valor de cada serviço precisa estar associado a referida categoria via valor base
-    //todo verificar bancos de dados
-    //todo exceptions
+    //todo verificar bancos de dados done
+    //todo exceptions done
     //todo relatorios
-    //todo gráficos
+    //todo gráficos done
 
 
 
