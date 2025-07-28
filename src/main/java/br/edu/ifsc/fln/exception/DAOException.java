@@ -4,10 +4,6 @@
  */
 package br.edu.ifsc.fln.exception;
 
-/**
- *
- * @author mpisc
- */
 public class DAOException extends Exception{
 
     /**

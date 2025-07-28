@@ -1,5 +1,6 @@
  package br.edu.ifsc.fln.model.dao;
 
+import br.edu.ifsc.fln.exception.DAOException;
 import br.edu.ifsc.fln.model.domain.Ecategoria;
 import br.edu.ifsc.fln.model.domain.Servico;
 
@@ -25,7 +26,7 @@ public class ServicoDAO {
         this.connection = connection;
     }
 
-    public boolean inserir (Servico servico){
+    public void inserir (Servico servico) throws DAOException {
         String sql = "INSERT INTO servico(descricao, valor, pontos, categoria) VALUES(?, ?, ?, ? )";
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -34,10 +35,9 @@ public class ServicoDAO {
             stmt.setInt(3, servico.getPontos());
             stmt.setString(4, String.valueOf(servico.getEcategoria()));
             stmt.execute();
-            return true;
-        } catch (SQLException ex){
-            Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+        } catch (SQLException e){
+            Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, "Erro ao inserir serviço: "+ servico.getDescricao(), e);
+            throw new DAOException("Falha ao inserir serviço no banco de dados", e);
         }
     }
 

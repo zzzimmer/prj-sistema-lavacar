@@ -4,10 +4,12 @@
  */
 package br.edu.ifsc.fln.controller.cadastro;
 
+import br.edu.ifsc.fln.exception.DAOException;
 import br.edu.ifsc.fln.model.dao.ModeloDAO;
 import br.edu.ifsc.fln.model.database.Database;
 import br.edu.ifsc.fln.model.database.DatabaseFactory;
 import br.edu.ifsc.fln.model.domain.Modelo;
+import br.edu.ifsc.fln.utils.AlertDialog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,6 +26,8 @@ import java.net.URL;
 import java.sql.Connection;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * FXML Controller class
@@ -120,11 +124,16 @@ public class FXMLAnchorPaneCadastroModeloController implements Initializable {
     }
 
     @FXML
-    public void handleBtInserir() throws IOException {
+    public void handleBtInserir() throws IOException, DAOException {
         Modelo modelo = new Modelo();
         boolean btConfirmarClicked = showFXMLAnchorPaneCadastroModeloDialog(modelo);
         if (btConfirmarClicked) {
+            try{
             modeloDAO.inserir(modelo);
+            } catch (DAOException ex){
+                Logger.getLogger(FXMLAnchorPaneCadastroModeloController.class.getName()).log(Level.SEVERE, null, ex);
+                AlertDialog.exceptionMessage(ex);
+            }
             carregarTableViewModelo();
 
         }

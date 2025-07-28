@@ -1,5 +1,7 @@
 package br.edu.ifsc.fln.controller.processo;
 
+import br.edu.ifsc.fln.controller.cadastro.FXMLAnchorPaneCadastroClienteController;
+import br.edu.ifsc.fln.exception.DAOException;
 import br.edu.ifsc.fln.model.dao.ItemOSDAO;
 import br.edu.ifsc.fln.model.dao.OrdemServicoDAO;
 import br.edu.ifsc.fln.model.database.Database;
@@ -7,25 +9,24 @@ import br.edu.ifsc.fln.model.database.DatabaseFactory;
 import br.edu.ifsc.fln.model.domain.ItemOS;
 import br.edu.ifsc.fln.model.domain.OrdemServico;
 import br.edu.ifsc.fln.model.domain.Veiculo;
+import br.edu.ifsc.fln.utils.AlertDialog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.TableCell;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -193,36 +194,57 @@ public class FXMLAnchorPaneProcessoOrdemServicoController implements Initializab
         return controller.isButtonConfirmarClicked();//todo 17 retorna aqui o método
     }
 
+//    @FXML
+//    private void handleButtonInserir(ActionEvent event) throws DAOException, IOException {
+//        OrdemServico ordemServico = new OrdemServico();//todo 2-3 instancia um objeto do tipo adequado
+//        List<ItemOS> itemOSList = new ArrayList<>();
+//        ordemServico.setListItemOs(itemOSList);//todo 4 atribui uma lista de itemOs
+//        boolean buttonConfirmaClicked = showFXMLAnchorPaneProcessoOrdemServicoDialog(ordemServico);//todo 5 manda para o metodo que puxa o controller
+//        //todo 18 aqui tem o retorno de showFXMLAnchorPaneProcessoOrdemServicoDialog
+//        //todo esse buttonConfirmaClicked apenas assegura que o método showFXMLAnchorPaneProcessoOrdemServicoDialog foi usado
+//        // pois isso significa que a ordemServico instânciada percorreu completamente o caminho de aquisição dos dados e pode ser salva no banco
+//        if (buttonConfirmaClicked){
+//            ordemServicoDAO.setConnection(connection);
+//            ordemServicoDAO.inserir(ordemServico);//todo 19 recebe um objeto para salvar no banco
+//            carregarTableView();
+//        }
+//        }
+
     @FXML
-    private void handleButtonInserir(ActionEvent event) throws IOException{
-        OrdemServico ordemServico = new OrdemServico();//todo 2-3 instancia um objeto do tipo adequado
+    private void handleButtonInserir(ActionEvent event) throws DAOException, IOException {
+        OrdemServico ordemServico = new OrdemServico();
         List<ItemOS> itemOSList = new ArrayList<>();
-        ordemServico.setListItemOs(itemOSList);//todo 4 atribui uma lista de itemOs
-        boolean buttonConfirmaClicked = showFXMLAnchorPaneProcessoOrdemServicoDialog(ordemServico);//todo 5 manda para o metodo que puxa o controller
-        //todo 18 aqui tem o retorno de showFXMLAnchorPaneProcessoOrdemServicoDialog
-        //todo esse buttonConfirmaClicked apenas assegura que o método showFXMLAnchorPaneProcessoOrdemServicoDialog foi usado
-        // pois isso significa que a ordemServico instânciada percorreu completamente o caminho de aquisição dos dados e pode ser salva no banco
+        ordemServico.setListItemOs(itemOSList);
+        boolean buttonConfirmaClicked = showFXMLAnchorPaneProcessoOrdemServicoDialog(ordemServico);
+
         if (buttonConfirmaClicked){
+            try{
             ordemServicoDAO.setConnection(connection);
-            ordemServicoDAO.inserir(ordemServico);//todo 19 recebe um objeto para salvar no banco
+            ordemServicoDAO.inserir(ordemServico);
+
+            } catch (DAOException ex){
+                Logger.getLogger(FXMLAnchorPaneProcessoOrdemServicoController.class.getName()).log(Level.SEVERE, null, ex);
+                AlertDialog.exceptionMessage(ex);
+            }
             carregarTableView();
         }
+    }
 
-//        @FXML
-//        private void handleButtonRemover(ActionEvent event) throws SQLException {
-//            OrdemServico ordemServico1 = tableView.getSelectionModel().getSelectedItem();
-//            if (ordemServico1 != null) {
-//                if (AlertDialog.confirmarExclusao("Tem certeza que deseja excluir a venda " + ordemServico1.getNumero())) {
-//                    ordemServicoDAO.setConnection(connection);
-//                    ordemServicoDAO.remover(ordemServico1);
-//
-//                    carregarTableView();
-//                }
-//            } else {
-//                Alert alert = new Alert(Alert.AlertType.ERROR);
-//                alert.setHeaderText("Por favor, escolha uma Os na tabela!");
-//                alert.show();
-//            }
+        @FXML
+        private void handleButtonRemover(ActionEvent event) throws SQLException {
+            OrdemServico ordemServico1 = tableView.getSelectionModel().getSelectedItem();
+            if (ordemServico1 != null) {
+                if (AlertDialog.confirmarExclusao("Tem certeza que deseja excluir a Ordem de Serviço:  " + ordemServico1.getNumero())) {
+                    ordemServicoDAO.setConnection(connection);
+                    ordemServicoDAO.remover(ordemServico1);
+
+                    carregarTableView();
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Por favor, escolha uma Os na tabela!");
+                alert.show();
+            }
         }
 
         @FXML
@@ -230,6 +252,7 @@ public class FXMLAnchorPaneProcessoOrdemServicoController implements Initializab
             OrdemServico ordemServico = tableView.getSelectionModel().getSelectedItem();
             ItemOSDAO itemOSDAO = new ItemOSDAO();
             itemOSDAO.setConnection(connection);
+
             List<ItemOS> itemOSList = new ArrayList<>();
             itemOSList = itemOSDAO.listarPorOS(ordemServico);
             System.out.println(itemOSList.size());

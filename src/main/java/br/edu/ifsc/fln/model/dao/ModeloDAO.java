@@ -1,6 +1,7 @@
 package br.edu.ifsc.fln.model.dao;
 
 
+import br.edu.ifsc.fln.exception.DAOException;
 import br.edu.ifsc.fln.model.domain.*;
 
 import java.sql.Connection;
@@ -24,7 +25,7 @@ public class ModeloDAO {
         this.connection = connection;
     }
 
-    public boolean inserir (Modelo modelo){
+    public void inserir (Modelo modelo) throws DAOException {
        final String sql = "INSERT INTO modelo(descricao, id_marca, categoria) VALUES(?,?,?)";
        final String sqlMotor = "INSERT INTO motor (id_modelo, potencia, tipo_combustivel) VALUES ((SELECT MAX(id) FROM modelo), ?,?)";
         try{
@@ -42,17 +43,17 @@ public class ModeloDAO {
 
             stmt.execute();
             connection.commit();
-            return true;
-        } catch (SQLException ex){
-            try{
+        } catch (SQLException ex) {
+            try {
                 connection.rollback();
                 System.out.println("Erro. Rollback");
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 Logger.getLogger(ModeloDAO.class.getName()).log(Level.SEVERE, "Erro ao realizar rollback", e);
             }
             Logger.getLogger(ModeloDAO.class.getName()).log(Level.SEVERE, "Modelo e Motor não foram inseridos, tente novamente", ex);
-            return false;
-        } finally {
+            throw new DAOException("Verificar banco de dados!", ex);
+        }
+        finally{
             try {
                 connection.setAutoCommit(true);
             } catch (SQLException e){

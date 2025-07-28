@@ -1,5 +1,6 @@
 package br.edu.ifsc.fln.model.dao;
 
+import br.edu.ifsc.fln.exception.DAOException;
 import br.edu.ifsc.fln.model.domain.*;
 
 import java.math.BigDecimal;
@@ -22,7 +23,7 @@ public class OrdemServicoDAO {
     }
 
 
-    public boolean inserir(OrdemServico ordemServico) { //todo 1
+    public void inserir(OrdemServico ordemServico) throws DAOException {  //todo 1
         String sql = "INSERT INTO ordem_servico(total,agenda,desconto,id_veiculo,status) VALUES(?,?,?,?,?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -56,18 +57,15 @@ public class OrdemServicoDAO {
             }
             connection.commit();
             connection.setAutoCommit(true);
-            return true;
-        } catch (SQLException ex) {
-            try {
-                connection.rollback();
-            } catch (SQLException ex1) {
-                Logger.getLogger(OrdemServicoDAO.class.getName()).log(Level.SEVERE, null, ex1);
-            }
+        } catch (java.sql.SQLIntegrityConstraintViolationException ex) {
             Logger.getLogger(OrdemServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            throw new DAOException("Impossível registrar o os no banco de dados!", ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(OrdemServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DAOException("Impossível registrar a os no banco de dados!", ex);
         }
 
-        }
+    }
 
     public boolean alterar(OrdemServico ordemServico) {
         String sql = "UPDATE ordem_servico SET total=?, agenda=?, desconto=?, id_veiculo=?, status=? WHERE id=?";
@@ -188,36 +186,38 @@ public class OrdemServicoDAO {
     }
 
     public boolean remover(OrdemServico ordemServico) {
-        String sql = "DELETE FROM ordem_servico WHERE id=?";
+        String sql = "DELETE FROM ordem_servico WHERE numero=?";
         try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            try {
-                connection.setAutoCommit(false);
-                ItemOSDAO itemOSDAO = new ItemOSDAO();
-                itemOSDAO.setConnection(connection);
+            connection.setAutoCommit(false);
 
-                for (ItemOS itemOS: ordemServico.getListItemOs()){
-                    itemOSDAO.remover(itemOS);
-                }
+            ItemOSDAO itemOSDAO = new ItemOSDAO();
+            itemOSDAO.setConnection(connection);
+
+            for (ItemOS itemOS : ordemServico.getListItemOs()) {
+                itemOSDAO.remover(itemOS);
+            }
+
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 stmt.setLong(1, ordemServico.getNumero());
                 stmt.execute();
-                connection.commit();
-            } catch (SQLException exc) {
-                try {
-                    connection.rollback();
-                } catch (SQLException exc1) {
-                    Logger.getLogger(ItemOSDAO.class.getName()).log(Level.SEVERE, null, exc1);
-                }
-                Logger.getLogger(OrdemServicoDAO.class.getName()).log(Level.SEVERE, null, exc);
             }
+
+            connection.commit();
             return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(OrdemServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+
+        } catch (SQLException exc) {
+            try {
+                connection.rollback();
+            } catch (SQLException exc1) {
+                Logger.getLogger(ItemOSDAO.class.getName()).log(Level.SEVERE, null, exc1);
+            }
+            Logger.getLogger(OrdemServicoDAO.class.getName()).log(Level.SEVERE, null, exc);
             return false;
         }
     }
 
 
 
-    }
+
+}
 

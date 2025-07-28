@@ -1,5 +1,6 @@
 package br.edu.ifsc.fln.model.dao;
 
+import br.edu.ifsc.fln.exception.DAOException;
 import br.edu.ifsc.fln.model.domain.Marca;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,16 +23,16 @@ public class MarcaDAO {
         this.connection = connection;
     }
 
-    public boolean inserir (Marca marca){
+    public void inserir (Marca marca) throws DAOException {
         String sql = "INSERT INTO marca(nome) VALUES(?)";
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, marca.getNome());
             stmt.execute();
-            return true;
+
         } catch (SQLException ex){
             Logger.getLogger(MarcaDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            throw new DAOException("Erro ao cadastrar no banco de dados", ex);
         }
     }
 

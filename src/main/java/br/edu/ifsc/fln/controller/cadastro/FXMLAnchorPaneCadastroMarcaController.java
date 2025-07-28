@@ -4,10 +4,12 @@
  */
 package br.edu.ifsc.fln.controller.cadastro;
 
+import br.edu.ifsc.fln.exception.DAOException;
 import br.edu.ifsc.fln.model.dao.MarcaDAO;
 import br.edu.ifsc.fln.model.database.Database;
 import br.edu.ifsc.fln.model.database.DatabaseFactory;
 import br.edu.ifsc.fln.model.domain.Marca;
+import br.edu.ifsc.fln.utils.AlertDialog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,6 +26,8 @@ import java.net.URL;
 import java.sql.Connection;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * FXML Controller class
@@ -98,7 +102,12 @@ public class  FXMLAnchorPaneCadastroMarcaController implements Initializable {
         Marca marca = new Marca();
         boolean btConfirmarClicked = showFXMLAnchorPaneCadastroMarcaDialog(marca);
         if (btConfirmarClicked) {
+            try{
             marcaDAO.inserir(marca);
+            }catch (DAOException ex){
+                Logger.getLogger(FXMLAnchorPaneCadastroMarcaController.class.getName()).log(Level.SEVERE, null, ex);
+                AlertDialog.exceptionMessage(ex);
+            }
             carregarTableViewMarca();
         }
     }

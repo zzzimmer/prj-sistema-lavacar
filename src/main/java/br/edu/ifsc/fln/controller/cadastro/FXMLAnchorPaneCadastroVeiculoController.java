@@ -4,6 +4,7 @@
  */
 package br.edu.ifsc.fln.controller.cadastro;
 
+import br.edu.ifsc.fln.exception.DAOException;
 import br.edu.ifsc.fln.model.dao.VeiculoDAO;
 import br.edu.ifsc.fln.model.database.Database;
 import br.edu.ifsc.fln.model.database.DatabaseFactory;
@@ -24,6 +25,8 @@ import java.net.URL;
 import java.sql.Connection;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * FXML Controller class
@@ -118,9 +121,12 @@ public class FXMLAnchorPaneCadastroVeiculoController implements Initializable {
         Veiculo veiculo = new Veiculo();
         boolean btConfirmarClicked = showFXMLAnchorPaneCadastroVeiculoDialog(veiculo);
         if (btConfirmarClicked) {
-            veiculoDAO.inserir(veiculo);
-            carregarTableViewVeiculo();
-
+            try {
+                veiculoDAO.inserir(veiculo);
+                carregarTableViewVeiculo();
+            } catch (DAOException e) {
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Erro ao inserir veículo", e);
+            }
         }
     }
 //

@@ -4,10 +4,13 @@
  */
 package br.edu.ifsc.fln.controller.cadastro;
 
+import br.edu.ifsc.fln.controller.processo.FXMLAnchorPaneProcessoOrdemServicoController;
+import br.edu.ifsc.fln.exception.DAOException;
 import br.edu.ifsc.fln.model.dao.ServicoDAO;
 import br.edu.ifsc.fln.model.database.Database;
 import br.edu.ifsc.fln.model.database.DatabaseFactory;
 import br.edu.ifsc.fln.model.domain.Servico;
+import br.edu.ifsc.fln.utils.AlertDialog;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,6 +27,8 @@ import java.net.URL;
 import java.sql.Connection;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * FXML Controller class
@@ -110,11 +115,17 @@ public class FXMLAnchorPaneCadastroServicoController implements Initializable {
     }
 
     @FXML
-    public void handleBtInserir() throws IOException {
+    public void handleBtInserir() throws DAOException, IOException {
         Servico servico = new Servico();
         boolean btConfirmarClicked = showFXMLAnchorPaneCadastroServicoDialog(servico);
         if (btConfirmarClicked) {
+            try{
             servicoDAO.inserir(servico);
+
+            } catch (DAOException ex){
+                Logger.getLogger(FXMLAnchorPaneCadastroServicoController.class.getName()).log(Level.SEVERE, null, ex);
+                AlertDialog.exceptionMessage(ex);
+            }
             carregarTableViewServico();
 
         }

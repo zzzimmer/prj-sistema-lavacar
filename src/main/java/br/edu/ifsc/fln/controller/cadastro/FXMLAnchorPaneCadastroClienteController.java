@@ -4,6 +4,7 @@
  */
 package br.edu.ifsc.fln.controller.cadastro;
 
+import br.edu.ifsc.fln.exception.DAOException;
 import br.edu.ifsc.fln.model.dao.ClienteDAO;
 import br.edu.ifsc.fln.model.database.Database;
 import br.edu.ifsc.fln.model.database.DatabaseFactory;
@@ -29,6 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FXMLAnchorPaneCadastroClienteController implements Initializable{
 
@@ -184,12 +187,17 @@ public class FXMLAnchorPaneCadastroClienteController implements Initializable{
     }
 
     @FXML
-    public void handleBtInserir() throws IOException {
+    public void handleBtInserir() throws IOException, DAOException {
         Cliente cliente = getTipoCliente();
+        boolean btConfirmarClicked = showFXMLAnchorPaneCadastroClienteDialog(cliente);
         if (cliente != null ) {
-            boolean btConfirmarClicked = showFXMLAnchorPaneCadastroClienteDialog(cliente);
             if (btConfirmarClicked) {
+                try{
                 clienteDAO.inserir(cliente);
+                } catch (DAOException ex){
+                    Logger.getLogger(FXMLAnchorPaneCadastroClienteController.class.getName()).log(Level.SEVERE, null, ex);
+                    AlertDialog.exceptionMessage(ex);
+                }
                 carregarTableViewCliente();
             }
         }

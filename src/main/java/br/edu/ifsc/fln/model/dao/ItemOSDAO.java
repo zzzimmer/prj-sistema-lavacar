@@ -84,10 +84,10 @@ public class ItemOSDAO {
     }
 
     public boolean remover(ItemOS itemOS) {
-        String sql = "DELETE FROM item_os WHERE id=?";
+        String sql = "DELETE FROM item_os WHERE id_ordem_servico=?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, itemOS.getId());
+            stmt.setInt(1, Math.toIntExact(Long.valueOf(itemOS.getOrdemServico().getNumero())));
             stmt.execute();
             return true;
         } catch (SQLException ex) {

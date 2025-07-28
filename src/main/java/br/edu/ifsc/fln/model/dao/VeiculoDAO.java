@@ -1,6 +1,7 @@
 package br.edu.ifsc.fln.model.dao;
 
 
+import br.edu.ifsc.fln.exception.DAOException;
 import br.edu.ifsc.fln.model.domain.*;
 
 import java.sql.Connection;
@@ -24,7 +25,7 @@ public class VeiculoDAO {
         this.connection = connection;
     }
 
-    public boolean inserir(Veiculo veiculo) {
+    public void inserir(Veiculo veiculo) throws DAOException {
         final String sql = "INSERT INTO veiculo(placa, observacoes, id_cor, id_modelo, id_cliente) VALUES(?,?,?,?,?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -35,10 +36,9 @@ public class VeiculoDAO {
             stmt.setLong(4,veiculo.getModelo().getId());
             stmt.setLong(5,veiculo.getCliente().getId());
             stmt.execute();
-            return true;
         } catch (SQLException ex) {
             Logger.getLogger(VeiculoDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            throw new DAOException("Erro ao inserir veículo", ex);
         }
     }
 

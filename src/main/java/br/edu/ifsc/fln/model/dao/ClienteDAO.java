@@ -1,5 +1,6 @@
 package br.edu.ifsc.fln.model.dao;
 
+import br.edu.ifsc.fln.exception.DAOException;
 import br.edu.ifsc.fln.model.domain.Cliente;
 import br.edu.ifsc.fln.model.domain.Cor;
 import br.edu.ifsc.fln.model.domain.PessoaFisica;
@@ -27,7 +28,7 @@ public class ClienteDAO {
         this.connection = connection;
     }
 
-    public boolean inserir (Cliente cliente){
+    public void inserir (Cliente cliente) throws DAOException {
         final String sql = "INSERT INTO cliente (nome, email, celular, data_cadastro )VALUES (?,?,?,?)";
         final String sqlPFisica = "INSERT INTO pessoa_fisica (id_cliente, cpf, data_nascimento) VALUES ((SELECT MAX(id) FROM cliente),?,?)";
         final String sqlPJuridica = "INSERT INTO pessoa_juridica (id_cliente, cnpj, inscricao_estadual) VALUES ((SELECT MAX(id) FROM cliente),?,?)";
@@ -51,10 +52,12 @@ public class ClienteDAO {
                 stmt.setString(2, ((PessoaJuridica) cliente).getInscricaoEstadual());
                 stmt.execute();
             }
-            return true;
+        } catch (java.sql.SQLIntegrityConstraintViolationException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DAOException("Impossível registrar o cliente no banco de dados!", ex);
         } catch (SQLException ex) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            throw new DAOException("Impossível registrar o cliente banco de dados!", ex);
         }
     }
 

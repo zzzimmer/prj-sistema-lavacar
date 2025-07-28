@@ -5,6 +5,7 @@
  */
 package br.edu.ifsc.fln.controller.processo;
 
+import br.edu.ifsc.fln.exception.garantirServicoUnico;
 import br.edu.ifsc.fln.model.dao.ServicoDAO;
 import br.edu.ifsc.fln.model.dao.VeiculoDAO;
 import br.edu.ifsc.fln.model.database.Database;
@@ -359,6 +360,10 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
 
             Servico servico = servicoDAO.buscar(servicoSelecionado);
 
+            if (garantirServicoUnico(servico)){
+                throw new garantirServicoUnico(servico);
+            }
+
             // Criar novo item da ordem de serviço
             ItemOS itemOS = new ItemOS();
             itemOS.setServico(servico);
@@ -445,6 +450,13 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
     }
 
     // Métodos auxiliares
+
+    private boolean garantirServicoUnico(Servico servico){
+        return ordemServico.getListItemOs().stream()
+                .anyMatch(item -> item.getServico() != null &&
+                item.getServico().getId() == servico.getId());
+    }
+
     private void atualizarValorTotal() {
         if (ordemServico != null) {
             double total = ordemServico.getTotal();

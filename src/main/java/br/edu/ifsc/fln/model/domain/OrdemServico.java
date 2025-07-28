@@ -29,6 +29,19 @@ public class OrdemServico {
 //    }
 
 
+    @Override
+    public String toString() {
+        return "OrdemServico{" +
+                "numero=" + numero +
+                ", total=" + total +
+                ", agenda=" + agenda +
+                ", desconto=" + desconto +
+                ", status=" + status +
+                ", ListItemOs=" + ListItemOs +
+                ", veiculo=" + veiculo +
+                '}';
+    }
+
     public double getTotal() {
         return total;
     }
