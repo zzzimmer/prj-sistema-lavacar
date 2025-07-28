@@ -11,6 +11,15 @@ public abstract class Cliente extends Object{
     protected String celular;
     protected String email;
     protected LocalDate dataCadastro = LocalDate.now();
+    protected Pontuacao pontuacao = new Pontuacao();
+
+    public Pontuacao getPontuacao() {
+        return pontuacao;
+    }
+
+    public void setPontuacao(Pontuacao pontuacao) {
+        this.pontuacao = pontuacao;
+    }
 
     private List <Veiculo> veiculoList;
 

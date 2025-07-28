@@ -109,6 +109,8 @@ public class ServicoDAO {
                 retorno.setId(resultSet.getInt("id"));
                 retorno.setDescricao(resultSet.getString("descricao"));
                 retorno.setValor(resultSet.getDouble("valor"));
+                retorno.setPontos(resultSet.getInt("pontos"));
+                retorno.setEcategoria(Enum.valueOf(Ecategoria.class, resultSet.getString("categoria")));
             }
         } catch (SQLException ex){
             Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -21,11 +21,16 @@ public class OrdemServico {
         this.numero = numero;
     }
 
+//    public double getTotal() {
+//        double soma = ListItemOs.stream()
+//                .mapToDouble(item -> item.getValorServico())
+//                .sum();
+//        return soma - desconto;
+//    }
+
+
     public double getTotal() {
-        double soma = ListItemOs.stream()
-                .mapToDouble(item -> item.getValorServico())
-                .sum();
-        return soma - desconto;
+        return total;
     }
 
     public void setTotal(double total) {

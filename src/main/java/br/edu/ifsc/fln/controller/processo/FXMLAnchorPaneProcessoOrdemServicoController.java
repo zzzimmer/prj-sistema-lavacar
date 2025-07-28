@@ -1,5 +1,6 @@
 package br.edu.ifsc.fln.controller.processo;
 
+import br.edu.ifsc.fln.model.dao.ItemOSDAO;
 import br.edu.ifsc.fln.model.dao.OrdemServicoDAO;
 import br.edu.ifsc.fln.model.database.Database;
 import br.edu.ifsc.fln.model.database.DatabaseFactory;
@@ -43,9 +44,6 @@ public class FXMLAnchorPaneProcessoOrdemServicoController implements Initializab
 
     @FXML
     private Button buttonRemover;
-
-    @FXML
-    private CheckBox checkBoxVendaPago;
 
     @FXML
     private Label labelOsCliente;
@@ -148,25 +146,14 @@ public class FXMLAnchorPaneProcessoOrdemServicoController implements Initializab
     public void selecionarItemTableView(OrdemServico ordemServico) {
         if (ordemServico != null){
 
-//            System.out.println("=== RESUMO DA ORDEM DE SERVIÇO ===");
-////            System.out.println("ID............: " + ordemServico.getNumero());
-////            System.out.println("Data..........: " +
-////                    ordemServico.getAgenda().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-////            System.out.println("Desconto......: R$ " +
-////                    String.format("%.2f", ordemServico.getDesconto()));
-////            System.out.println("Status........: " + ordemServico.getStatus().name());
-//            System.out.println("Cliente.......: " +
-//                    ordemServico.getVeiculo().getCliente().getNome());
-//            System.out.println("Total (líquido): R$ " +
-//                    String.format("%.2f", ordemServico.getTotal()));
-//            System.out.println("==================================");
-
             labelOsId.setText(Double.toString(ordemServico.getNumero()));
             labelOsData.setText(ordemServico.getAgenda().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             labelOsDesconto.setText(Double.toString(ordemServico.getDesconto()));
             labelOsStatus.setText(ordemServico.getStatus().name());
             labelOsCliente.setText(ordemServico.getVeiculo().getCliente().getNome());
+//            labelOsTotal.setText(Double.toString(ordemServico.calcularServico()));
             labelOsTotal.setText(Double.toString(ordemServico.getTotal()));
+
         }else {
             labelOsId.setText("");
             labelOsData.setText("");
@@ -215,7 +202,6 @@ public class FXMLAnchorPaneProcessoOrdemServicoController implements Initializab
         //todo 18 aqui tem o retorno de showFXMLAnchorPaneProcessoOrdemServicoDialog
         //todo esse buttonConfirmaClicked apenas assegura que o método showFXMLAnchorPaneProcessoOrdemServicoDialog foi usado
         // pois isso significa que a ordemServico instânciada percorreu completamente o caminho de aquisição dos dados e pode ser salva no banco
-        System.out.println(buttonConfirmaClicked);
         if (buttonConfirmaClicked){
             ordemServicoDAO.setConnection(connection);
             ordemServicoDAO.inserir(ordemServico);//todo 19 recebe um objeto para salvar no banco
@@ -237,14 +223,46 @@ public class FXMLAnchorPaneProcessoOrdemServicoController implements Initializab
 //                alert.setHeaderText("Por favor, escolha uma Os na tabela!");
 //                alert.show();
 //            }
+        }
+
+        @FXML
+        private void handleButtonAlterar(ActionEvent event) throws IOException {
+            OrdemServico ordemServico = tableView.getSelectionModel().getSelectedItem();
+            ItemOSDAO itemOSDAO = new ItemOSDAO();
+            itemOSDAO.setConnection(connection);
+            List<ItemOS> itemOSList = new ArrayList<>();
+            itemOSList = itemOSDAO.listarPorOS(ordemServico);
+            System.out.println(itemOSList.size());
+            ordemServico.setListItemOs(itemOSList);
+            boolean buttonConfirmaClicked = showFXMLAnchorPaneProcessoOrdemServicoDialog(ordemServico);
+
+            if (buttonConfirmaClicked){
+                ordemServicoDAO.setConnection(connection);
+                ordemServicoDAO.alterar(ordemServico);
+                carregarTableView();
+            }
+
+        }
+
+//    @FXML
+//    private void handleButtonAlterar(ActionEvent event) throws IOException {
+//        OrdemServico ordemServico = tableView.getSelectionModel().getSelectedItem();
+//
+//        ItemOSDAO itemOSDAO = new ItemOSDAO();
+//        itemOSDAO.setConnection(connection);
+//        List<ItemOS> itemOSList = itemOSDAO.listarPorOS(ordemServico);
+//
+//        System.out.println("DEBUG: Itens encontrados: " + itemOSList.size());
+//
+//        ordemServico.setListItemOs(itemOSList);
+//
+//        boolean buttonConfirmaClicked = showFXMLAnchorPaneProcessoOrdemServicoDialog(ordemServico);
+//
+//        if (buttonConfirmaClicked) {
+//            ordemServicoDAO.setConnection(connection);
+//            ordemServicoDAO.alterar(ordemServico);
+//            carregarTableView();
 //        }
+//    }
+
     }
-
-
-
-
-
-
-
-
-}

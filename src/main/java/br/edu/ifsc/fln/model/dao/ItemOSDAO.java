@@ -44,20 +44,22 @@ public class ItemOSDAO {
     }
 
     public List<ItemOS> listarPorOS(OrdemServico ordemServico) {
-        String sql = "SELECT * FROM item_os WHERE id_servico=?";
+        String sql = "SELECT * FROM item_os WHERE id_ordem_servico=?";
         List<ItemOS> retorno = new ArrayList<>();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1,((int) ordemServico.getNumero()));
             ResultSet resultSet = stmt.executeQuery();
+            System.out.println(ordemServico.getNumero());
             while (resultSet.next()){
                 ItemOS itemOS = new ItemOS();
                 Servico servico = new Servico();
-                OrdemServico os = new OrdemServico();
+//                OrdemServico os = new OrdemServico();
                 OrdemServicoDAO ordemServicoDAO = new OrdemServicoDAO();
 
                 itemOS.setId(resultSet.getInt("id"));
                 itemOS.setObservacoes(resultSet.getString("observacoes"));
+                itemOS.setValorServico(resultSet.getDouble("valor_servico"));
 
                 servico.setId(resultSet.getInt("id_servico"));
                 ServicoDAO servicoDAO = new ServicoDAO();
@@ -67,10 +69,11 @@ public class ItemOSDAO {
                 itemOS.setServico(servico);
                 itemOS.setValorServico(resultSet.getDouble("valor_servico"));
 
-                os.setNumero(resultSet.getInt("id_ordem_servico"));
-                os = ordemServicoDAO.buscar(os);
-
-                itemOS.setOrdemServico(os);
+//                os.setNumero(resultSet.getInt("id_ordem_servico"));
+//                os = ordemServicoDAO.buscar(os);
+//
+//                itemOS.setOrdemServico(os);
+                itemOS.setOrdemServico(ordemServico);
                 retorno.add(itemOS);
             }
 
@@ -93,6 +96,10 @@ public class ItemOSDAO {
         }
     }
 
+//    public boolean alterar (ItemOS itemOS){
+//        String sql = "UPDATE item_os SET valor_servico=?, observacoes=? WHERE id";
+//
+//    }
 
 
 

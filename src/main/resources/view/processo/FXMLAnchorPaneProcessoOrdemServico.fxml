@@ -94,7 +94,7 @@
                   <Group layoutX="64.0" layoutY="285.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
                      <children>
                         <Button fx:id="buttonInserir" mnemonicParsing="false" onAction="#handleButtonInserir" prefHeight="25.0" prefWidth="64.0" text="Inserir" />
-<!--                        <Button fx:id="buttonAlterar" layoutX="71.0" mnemonicParsing="false" onAction="#handleButtonAlterar" prefHeight="25.0" prefWidth="64.0" text="Alterar" />-->
+                        <Button fx:id="buttonAlterar" layoutX="71.0" mnemonicParsing="false" onAction="#handleButtonAlterar" prefHeight="25.0" prefWidth="64.0" text="Alterar" />
 <!--                        <Button fx:id="buttonRemover" layoutX="141.0" mnemonicParsing="false" onAction="#handleButtonRemover" text="Remover" />-->
                      </children>
                   </Group>

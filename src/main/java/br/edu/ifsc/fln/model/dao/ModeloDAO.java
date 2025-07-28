@@ -128,6 +128,15 @@ public class ModeloDAO {
             if (resultSet.next()){
                 retorno.setId(resultSet.getInt("id"));
                 retorno.setDescricao(resultSet.getString("descricao"));
+                retorno.setEcategoria(Ecategoria.valueOf(resultSet.getString("categoria")));
+
+                Marca marca = new Marca();
+                MarcaDAO marcaDAO = new MarcaDAO();
+                marcaDAO.setConnection(connection);
+                marca = marcaDAO.buscar(resultSet.getInt("id_marca"));
+                retorno.setMarca(marca);
+
+
             }
         } catch (SQLException ex){
             Logger.getLogger(ServicoDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -1,0 +1,55 @@
+public List<ItemOS> listarPorOS(OrdemServico ordemServico) {
+        // ✅ CORREÇÃO PRINCIPAL: Query deve buscar por id_ordem_servico, não id_servico
+        String sql = "SELECT * FROM item_os WHERE id_ordem_servico = ?";
+        List<ItemOS> retorno = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, (int) ordemServico.getNumero());
+            ResultSet resultSet = stmt.executeQuery();
+
+            // ✅ DEBUG melhorado
+            System.out.println("DEBUG: Buscando itens para Ordem de Serviço nº: " + ordemServico.getNumero());
+            System.out.println("DEBUG: SQL executado: " + sql);
+
+            int contador = 0;
+            while (resultSet.next()) {
+                contador++;
+                System.out.println("DEBUG: Processando item " + contador);
+
+                ItemOS itemOS = new ItemOS();
+
+                // ✅ Dados básicos do ItemOS
+                itemOS.setId(resultSet.getInt("id"));
+                itemOS.setObservacoes(resultSet.getString("observacoes"));
+                itemOS.setValorServico(resultSet.getDouble("valor_servico"));
+
+                // ✅ Buscar e associar o Serviço
+                int idServico = resultSet.getInt("id_servico");
+                System.out.println("DEBUG: ID do serviço: " + idServico);
+
+                Servico servico = new Servico();
+                servico.setId(idServico);
+                ServicoDAO servicoDAO = new ServicoDAO();
+                servicoDAO.setConnection(connection);
+                servico = servicoDAO.buscar(servico);
+                itemOS.setServico(servico);
+
+                // ✅ Associar a OrdemServico (pode usar a que já temos)
+                itemOS.setOrdemServico(ordemServico);
+
+                retorno.add(itemOS);
+                System.out.println("DEBUG: Item adicionado - Serviço: " +
+                        (servico != null ? servico.getDescricao() : "NULL") +
+                        ", Valor: " + itemOS.getValorServico());
+            }
+
+            System.out.println("DEBUG: Total de itens encontrados: " + retorno.size());
+
+        } catch (SQLException e) {
+            System.err.println("ERRO SQL: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return retorno;
+    }

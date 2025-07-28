@@ -36,8 +36,12 @@ public class OrdemServicoDAO {
                 stmt.setString(5, ordemServico.getStatus().name());
             }
 
-            System.out.println(ordemServico.getListItemOs().getFirst().toString());
+            Cliente cliente = ordemServico.getVeiculo().getCliente();
 
+            System.out.println(cliente.getNome());
+
+            ClienteDAO clienteDAO = new ClienteDAO();
+            clienteDAO.setConnection(connection);
 
             stmt.execute();
             ItemOSDAO itemOSDAO = new ItemOSDAO();
@@ -46,15 +50,10 @@ public class OrdemServicoDAO {
             for (ItemOS itemOS: ordemServico.getListItemOs()){
                 itemOS.setOrdemServico(this.buscarUltimaOs());
                 itemOSDAO.inserir(itemOS);
+                int pontosCliente = itemOS.getServico().getPontos();
+                cliente.getPontuacao().add(pontosCliente);
+                clienteDAO.pontuar(cliente);
             }
-//
-//            for (ItemOS itemOS : ordemServico.getListServicos()){
-//                System.out.println("----------------");
-////                System.out.println(itemOS.getObservacoes());
-//                System.out.println(itemOS.getOrdemServico().getNumero());
-//                System.out.println(itemOS.getServico().getId());
-//            }
-
             connection.commit();
             connection.setAutoCommit(true);
             return true;
@@ -77,6 +76,7 @@ public class OrdemServicoDAO {
             connection.setAutoCommit(false);
 
             ItemOSDAO itemOSDAO = new ItemOSDAO();
+            itemOSDAO.setConnection(connection);
 
 //            OrdemServico ordemServicoAnterior = buscar(ordemServico);
 
@@ -137,7 +137,6 @@ public class OrdemServicoDAO {
             ResultSet resultado = stmt.executeQuery();
             while (resultado.next()) {
                 OrdemServico ordemServico = new OrdemServico();
-//                ItemOS itemOS = new ItemOS();
                 List<ItemOS> itemOSList = new ArrayList<>();
                 ItemOSDAO itemOSDAO = new ItemOSDAO();
 
@@ -146,6 +145,7 @@ public class OrdemServicoDAO {
                 ordemServico.setAgenda(resultado.getDate("agenda").toLocalDate());//todo observar possivel problema
                 ordemServico.setDesconto(resultado.getDouble("desconto"));
                 ordemServico.setTotal(resultado.getDouble("total"));
+//                System.out.println(ordemServico.getTotal());
 
                 Veiculo veiculo = new Veiculo();
                 veiculo.setId(resultado.getInt("id_veiculo"));

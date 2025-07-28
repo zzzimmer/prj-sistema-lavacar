@@ -17,103 +17,141 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="448.0" prefWidth="517.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsc.fln.controller.processo.FXMLAnchorPaneProcessoOrdemServicoDialogController">
+<AnchorPane id="AnchorPane" prefHeight="545.0" prefWidth="557.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsc.fln.controller.processo.FXMLAnchorPaneProcessoOrdemServicoDialogController">
    <children>
-      <GridPane layoutX="15.0" layoutY="10.0" prefHeight="386.0" prefWidth="482.0">
+      <GridPane layoutX="17.0" layoutY="22.0" prefHeight="289.0" prefWidth="517.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.0" minWidth="10.0" prefWidth="88.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="398.0" minWidth="10.0" prefWidth="391.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.0" minWidth="10.0" prefWidth="82.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="459.0" minWidth="10.0" prefWidth="440.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="38.0" minHeight="0.0" prefHeight="24.233314514160156" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="86.0" minHeight="10.0" prefHeight="34.349971771240234" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="94.0" minHeight="10.0" prefHeight="30.650028228759766" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="109.0" minHeight="10.0" prefHeight="37.6500244140625" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="125.0" minHeight="10.0" prefHeight="35.312538146972656" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="138.0" minHeight="10.0" prefHeight="42.20835876464844" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="135.0" minHeight="10.0" prefHeight="40.42919921875" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="129.0" minHeight="10.0" prefHeight="33.76667785644531" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="134.0" minHeight="10.0" prefHeight="104.88333129882812" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="40.0" minHeight="0.0" prefHeight="38.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="94.0" minHeight="10.0" prefHeight="38.19474792480469" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="109.0" minHeight="10.0" prefHeight="38.34037780761719" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="129.1841812133789" minHeight="10.0" prefHeight="42.543975830078125" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="138.0" minHeight="10.0" prefHeight="52.824676513671875" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="136.44374084472656" minHeight="10.0" prefHeight="37.44573974609375" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="textFieldDesconto" alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="28.0" prefWidth="162.0" promptText="0,0" text="0,0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label text="Serviços em vista:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="7">
+            <TextField fx:id="textFieldCategoria" alignment="CENTER" editable="false" maxWidth="-Infinity" prefHeight="28.0" prefWidth="103.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+            <TextField fx:id="textFieldDesconto" alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="28.0" prefWidth="121.0" promptText="0,0" text="0,0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets left="60.0" />
+               </GridPane.margin></TextField>
+            <Label text="Serviços em vista:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets right="5.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Veiculo:" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <Label text="Veiculo:" GridPane.halignment="CENTER">
                <GridPane.margin>
                   <Insets right="5.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Data:" GridPane.halignment="CENTER">
+            <Label text="Data:" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets right="5.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Cliente:" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <Label prefHeight="17.0" prefWidth="44.0" text="Cliente:" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <GridPane.margin>
+                  <Insets right="140.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Servico:" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets right="5.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Servico:" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <Label text="Valor Total:" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets right="5.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Valor Total:" GridPane.halignment="CENTER" GridPane.rowIndex="6">
-               <GridPane.margin>
-                  <Insets right="5.0" />
-               </GridPane.margin>
-            </Label>
-            <ComboBox fx:id="comboBoxVeiculoPlaca" prefHeight="26.0" prefWidth="394.0" promptText="Selecione a Placa..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <DatePicker fx:id="datePickerData" prefHeight="25.0" prefWidth="395.0" GridPane.columnIndex="1" />
-            <TableView fx:id="tableViewItensOrdemServico" onMouseClicked="#handleTableViewMouseClicked" prefHeight="125.0" prefWidth="386.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
-<!--             <TableView fx:id="tableViewItensOrdemServico" onMouseClicked="#handleTableViewMouseClicked" prefHeight="125.0" prefWidth="386.0" GridPane.columnIndex="1" GridPane.rowIndex="8">-->
-              <columns>
-                <TableColumn fx:id="tableColumnServico" prefWidth="127.0" text="Servico" />
-                <TableColumn fx:id="tableColumnValor" prefWidth="134.0" text="Valor" />
-                  <TableColumn fx:id="tableColumnObs" prefWidth="129.0" text="Obs" />
-              </columns>
-               <contextMenu>
-                  <ContextMenu fx:id="contextMenuTableView">
-                    <items>
-<!--                      <MenuItem fx:id="contextMenuItemAtualizarQtd" mnemonicParsing="false" onAction="#handleContextMenuItemAtualizarQtd" text="Atualizar a quantidade" />-->
-<!--                        <MenuItem fx:id="contextMenuItemRemoverItem" mnemonicParsing="false" onAction="#handleContextMenuItemRemoverItem" text="Remover item" />-->
-                    </items>
-                  </ContextMenu>
-               </contextMenu>
-            </TableView>
-            <TextField fx:id="textFieldValor" alignment="CENTER_RIGHT" editable="false" prefHeight="28.0" promptText="Total" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <ComboBox fx:id="comboBoxVeiculoPlaca" prefHeight="26.0" prefWidth="120.0" promptText="Selecione" GridPane.columnIndex="1" />
+            <DatePicker fx:id="datePickerData" prefHeight="26.0" prefWidth="155.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+            <TextField fx:id="textFieldValor" alignment="CENTER_RIGHT" editable="false" maxWidth="-Infinity" prefHeight="28.0" prefWidth="112.0" promptText="Total" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+            <HBox prefHeight="39.0" prefWidth="440.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <ComboBox fx:id="comboBoxServico" prefHeight="28.0" prefWidth="163.0" promptText="Selecione o servico..." />
-                  <TextField fx:id="textFieldValorEscolhido" alignment="CENTER_RIGHT" maxWidth="-Infinity" prefHeight="28.0" prefWidth="97.0" promptText="Valor Sugerido" />
-                  <Button fx:id="buttonAdicionar" mnemonicParsing="false" onAction="#handleButtonAdicionar" prefHeight="28.0" prefWidth="131.0" text="Adicionar" />
+                  <ComboBox fx:id="comboBoxServico" prefHeight="28.0" prefWidth="103.0" promptText="Selecione">
+                     <HBox.margin>
+                        <Insets top="7.0" />
+                     </HBox.margin></ComboBox>
+                  <TextField fx:id="textFieldObsServico" alignment="CENTER" maxWidth="-Infinity" prefHeight="28.0" prefWidth="92.0" promptText="Observações">
+                     <HBox.margin>
+                        <Insets left="15.0" top="7.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <TextField fx:id="textFieldValorEscolhido" alignment="CENTER" maxWidth="-Infinity" prefHeight="28.0" prefWidth="100.0" promptText="Valor Sugerido">
+                     <HBox.margin>
+                        <Insets left="10.0" top="7.0" />
+                     </HBox.margin></TextField>
+                  <Button fx:id="buttonAdicionar" alignment="CENTER" mnemonicParsing="false" onAction="#handleButtonAdicionar" prefHeight="28.0" prefWidth="80.0" text="Adicionar">
+                     <HBox.margin>
+                        <Insets left="40.0" top="7.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
-            <Label alignment="CENTER_RIGHT" text="Desconto (%):" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <Label alignment="CENTER_RIGHT" text="Desconto:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                <GridPane.margin>
-                  <Insets right="5.0" />
+                  <Insets right="130.0" />
                </GridPane.margin>
             </Label>
-            <Label alignment="CENTER_RIGHT" text="Situação:" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+            <Label alignment="CENTER_RIGHT" text="Situação:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <GridPane.margin>
-                  <Insets right="5.0" />
+                  <Insets right="65.0" />
                </GridPane.margin>
             </Label>
-            <ChoiceBox fx:id="choiceBoxSituacao" prefHeight="28.0" prefWidth="393.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="textFieldObsServico" maxWidth="-Infinity" prefHeight="28.0" prefWidth="229.0" promptText="Observações do Serviço" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-            <TextField fx:id="textFieldCliente" alignment="CENTER_RIGHT" editable="false" prefHeight="28.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button fx:id="buttonLimpar" mnemonicParsing="false" onAction="#handleLimparServicos" prefHeight="28.0" prefWidth="185.0" text="Limpar todos os campos" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+            <ChoiceBox fx:id="choiceBoxSituacao" prefHeight="28.0" prefWidth="134.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="130.0" />
+               </GridPane.margin></ChoiceBox>
+            <TextField fx:id="textFieldCliente" editable="false" maxWidth="-Infinity" prefHeight="28.0" prefWidth="135.0" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <GridPane.margin>
+                  <Insets left="40.0" />
+               </GridPane.margin></TextField>
+            <Button fx:id="buttonLimpar" mnemonicParsing="false" onAction="#handleLimparServicos" prefHeight="28.0" prefWidth="185.0" text="Limpar todos os campos" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+            <Label text="Modelo: " GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <TextField fx:id="textFieldModelo" alignment="CENTER" editable="false" maxWidth="-Infinity" prefHeight="28.0" prefWidth="103.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label alignment="CENTER" maxWidth="-Infinity" prefHeight="17.0" prefWidth="41.0" text="Marca: " GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="115.0" />
+               </GridPane.margin>
+            </Label>
+            <TextField fx:id="textFieldMarca" alignment="CENTER" editable="false" maxWidth="-Infinity" prefHeight="28.0" prefWidth="104.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets right="10.0" />
+               </GridPane.margin>
+            </TextField>
+            <Label alignment="CENTER" maxWidth="-Infinity" prefHeight="17.0" prefWidth="60.0" text="Categoria:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets right="105.0" />
+               </GridPane.margin>
+            </Label>
+<!--            <Button fx:id="buttonBuscarDados" alignment="CENTER" mnemonicParsing="false" onAction="#handleButtonBuscarDados" prefHeight="28.0" prefWidth="80.0" text="Buscar " GridPane.columnIndex="1" GridPane.halignment="RIGHT" />-->
          </children>
       </GridPane>
-      <Group layoutX="296.0" layoutY="290.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
-         <children>
-            <Button fx:id="buttonConfirmar" mnemonicParsing="false" onAction="#handleButtonConfirmar" text="Confirmar" />
-            <Button fx:id="buttonCancelar" layoutX="75.0" mnemonicParsing="false" onAction="#handleButtonCancelar" prefHeight="25.0" prefWidth="69.0" text="Cancelar" />
-         </children>
-      </Group>
+       <TableView fx:id="tableViewItensOrdemServico" layoutX="18.0" layoutY="313.0" onMouseClicked="#handleTableViewMouseClicked" prefHeight="178.0" prefWidth="517.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+           <!--             <TableView fx:id="tableViewItensOrdemServico" onMouseClicked="#handleTableViewMouseClicked" prefHeight="125.0" prefWidth="386.0" GridPane.columnIndex="1" GridPane.rowIndex="8">-->
+           <columns>
+               <TableColumn fx:id="tableColumnServico" prefWidth="144.0" text="Servico" />
+               <TableColumn fx:id="tableColumnValor" prefWidth="117.0" text="Valor Cobrado" />
+               <TableColumn fx:id="tableColumnObs" prefWidth="132.0" text="Observaçoes" />
+               <TableColumn fx:id="tableColumnValorOriginal" prefWidth="123.0" text="Valor Original" />
+           </columns>
+           <contextMenu>
+               <ContextMenu fx:id="contextMenuTableView">
+                   <items>
+                       <!--                      <MenuItem fx:id="contextMenuItemAtualizarQtd" mnemonicParsing="false" onAction="#handleContextMenuItemAtualizarQtd" text="Atualizar a quantidade" />-->
+                       <!--                        <MenuItem fx:id="contextMenuItemRemoverItem" mnemonicParsing="false" onAction="#handleContextMenuItemRemoverItem" text="Remover item" />-->
+                   </items>
+               </ContextMenu>
+           </contextMenu>
+       </TableView>
+      <Group layoutX="296.0" layoutY="290.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+      <Button fx:id="buttonConfirmar" layoutX="320.0" layoutY="499.0" mnemonicParsing="false" onAction="#handleButtonConfirmar" text="Confirmar" />
+      <Button fx:id="buttonCancelar" layoutX="436.0" layoutY="499.0" mnemonicParsing="false" onAction="#handleButtonCancelar" prefHeight="26.0" prefWidth="79.0" text="Cancelar" />
    </children>
 </AnchorPane>

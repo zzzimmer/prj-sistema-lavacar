@@ -59,6 +59,15 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
     private TextField textFieldCliente;
 
     @FXML
+    private TextField textFieldModelo;
+
+    @FXML
+    private TextField textFieldMarca;
+
+    @FXML
+    private TextField textFieldCategoria;
+
+    @FXML
     private MenuItem contextMenuItemAtualizarQtd;
 
     @FXML
@@ -78,6 +87,9 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
 
     @FXML
     private TableColumn<ItemOS, Double> tableColumnValor;
+
+    @FXML
+    private TableColumn<ItemOS, Double> tableColumnValorOriginal;
 
     @FXML
     private TableView<ItemOS> tableViewItensOrdemServico;
@@ -115,6 +127,7 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        observableListItemOs = FXCollections.observableArrayList();
         veiculoDAO.setConnection(connection);
         servicoDAO.setConnection(connection);
         carregarComboBoxVeiculos();
@@ -128,7 +141,6 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
         datePickerData.setValue(LocalDate.now()); // isso ta aqui porque foi o jeito de funcional. Tava vindo um NPE
 
         // Inicializar a ObservableList da tabela
-        observableListItemOs = FXCollections.observableArrayList();
         tableViewItensOrdemServico.setItems(observableListItemOs);
     }
 
@@ -198,12 +210,18 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
 
     private void configurarCampoCliente() {
         textFieldCliente.setEditable(false);
-        textFieldCliente.setStyle(" -fx-alignment: center;");
     }
 
-    private void atualizarCampoCliente(Veiculo veiculo) {
+    private void atualizarCamposVeiculo(Veiculo veiculo) {
         if (veiculo != null && veiculo.getCliente() != null) {
             textFieldCliente.setText(veiculo.getCliente().getNome());
+
+            System.out.println(veiculo.getModelo().toString());
+            System.out.println("-----passa aki");
+
+            textFieldCategoria.setText(veiculo.getModelo().getEcategoria().toString());
+            textFieldModelo.setText(veiculo.getModelo().getDescricao());
+            textFieldMarca.setText(veiculo.getModelo().getMarca().toString());
         } else {
             textFieldCliente.setText("");
         }
@@ -213,7 +231,7 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
         comboBoxVeiculoPlaca.getSelectionModel().selectedItemProperty().addListener((
                 observable, oldValue, newValue) -> {
             if (newValue != null) {
-                atualizarCampoCliente(newValue);
+                atualizarCamposVeiculo(newValue);
             }
         });
     }
@@ -240,8 +258,18 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
             double valor = 0.0;
 
             if (item.getServico() != null ) {
-//                valor = item.getServico().getValor();
                 valor = item.getValorServico();
+            }
+
+            return new SimpleObjectProperty<>(valor);
+        });
+
+        tableColumnValorOriginal.setCellValueFactory(cellData -> {
+            ItemOS item = cellData.getValue();
+            double valor = 0.0;
+
+            if (item.getServico() != null){
+                valor = item.getServico().getValor();
             }
 
             return new SimpleObjectProperty<>(valor);
@@ -258,8 +286,19 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
                 }
             }
         });
-    }
 
+        tableColumnValorOriginal.setCellFactory(column -> new TableCell<ItemOS, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText("");
+                } else {
+                    setText(String.format("R$ %.2f", item));
+                }
+            }
+        });
+    }
 
 
     public void setOrdemServico(OrdemServico ordemServico) { //todo 13 aquele objeto executa esse método
@@ -274,12 +313,13 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
                 choiceBoxSituacao.getSelectionModel().select(this.ordemServico.getStatus());
 
 //                observableListItemOs.clear();
-                observableListItemOs.addAll(ordemServico.getListItemOs());
-                observableListItemOs = FXCollections.observableArrayList(
-                        this.ordemServico.getListItemOs()
-                );
+                if (ordemServico.getListItemOs() != null && !ordemServico.getListItemOs().isEmpty()) {
+                    observableListItemOs.addAll(ordemServico.getListItemOs());
+                } else {
+                    System.out.println("DEBUG: Lista de itens está vazia ou nula");
+                }
 
-                tableViewItensOrdemServico.setItems(observableListItemOs);
+//                tableViewItensOrdemServico.setItems(observableListItemOs);
 
                 textFieldValor.setText(String.format("%.2f", this.ordemServico.getTotal()));
                 textFieldDesconto.setText(String.format("%.2f", this.ordemServico.getDesconto()));
@@ -287,8 +327,12 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
                 if (ordemServico.getVeiculo() != null &&
                         ordemServico.getVeiculo().getCliente() != null) {
                     textFieldCliente.setText(this.ordemServico.getVeiculo().getCliente().getNome());
+                    textFieldModelo.setText(this.ordemServico.getVeiculo().getModelo().getDescricao());
+                    textFieldMarca.setText(this.ordemServico.getVeiculo().getModelo().getMarca().getNome());
+                    textFieldCategoria.setText(this.ordemServico.getVeiculo().getModelo().getEcategoria().toString());
                 }
 
+                tableViewItensOrdemServico.refresh();
             }
 
     }
@@ -328,20 +372,21 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
                 itemOS.setValorServico(itemOS.getServico().getValor());
             };
 
-            // Adicionar a lista da ordem de serviço
-            if (ordemServico.getListItemOs() == null) {
-                ordemServico.setListItemOs(new ArrayList<>());
-            }
-            ordemServico.getListItemOs().add(itemOS);
+//            // Adicionar a lista da ordem de serviço
+//            if (ordemServico.getListItemOs() == null) {
+//                ordemServico.setListItemOs(new ArrayList<>());
+//            }
 
+            itemOS.setObservacoes(textFieldObsServico.getText());
+            ordemServico.getListItemOs().add(itemOS);
 
             // Atualizar a ObservableList da tabela
             observableListItemOs.add(itemOS);
 
-            // Atualizar o valor total
-            atualizarValorTotal();
             limparCamposEntrada();
             configurarValorSugerido();
+
+            atualizarValorTotal();
 
         } catch (Exception e) {
             mostrarAlerta("Erro", "Erro ao adicionar serviço: " + e.getMessage());
@@ -372,15 +417,7 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
 
         ordemServico.setVeiculo(comboBoxVeiculoPlaca.getSelectionModel().getSelectedItem());
         ordemServico.setAgenda(datePickerData.getValue());
-
-        //Era assim
-//        ordemServico.setListServicos(new ArrayList<>(observableListItemOs));
-//        ordemServico.setListServicos(observableListItemOs);
         ordemServico.setListItemOs(observableListItemOs);
-
-//        System.out.println("------aki"); passou
-//        System.out.println(ordemServico.getListItemOs().getFirst().getServico().getValor());
-
 
         ordemServico.setStatus(choiceBoxSituacao.getValue());
 
@@ -444,9 +481,6 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
         alert.showAndWait();
     }
 
-    /**
-     * @return the dialogStage
-     */
     public Stage getDialogStage() {
         return dialogStage;
     }

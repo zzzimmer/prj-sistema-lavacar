@@ -187,4 +187,31 @@ public class ClienteDAO {
         return retorno;
     }
 
+    public boolean pontuar(Cliente cliente){
+        String sqlPF = "UPDATE pessoa_fisica SET pontuacao=? WHERE id_cliente = ?";
+        String sqlPJ = "UPDATE pessoa_juridica SET pontuacao=? WHERE id_cliente = ?";
+
+        try {
+            if (cliente instanceof PessoaFisica) {
+                PreparedStatement stmt = connection.prepareStatement(sqlPF);
+                stmt = connection.prepareStatement(sqlPF);
+                stmt.setInt(1, ((PessoaFisica) cliente).getPontuacao().saldo());
+                stmt.setInt(2, cliente.getId());
+                stmt.execute();
+            } else {
+                PreparedStatement stmt = connection.prepareStatement(sqlPJ);
+                stmt = connection.prepareStatement(sqlPJ);
+                stmt.setInt(1, ((PessoaJuridica) cliente).getPontuacao().saldo());
+                stmt.setInt(2, cliente.getId());
+                stmt.execute();
+            }
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
 }
+
+
