@@ -95,8 +95,9 @@ public class FXMLVBoxMainAppController implements Initializable {
     }
     
     @FXML
-    public void handleMenuItemRelatorioEstoqueProdutos() throws IOException {
-        //TODO not implemented yet
+    public void handleMenuItemRelatorioOrdensServico() throws IOException {
+        AnchorPane a = (AnchorPane) FXMLLoader.load(getClass().getResource("/view/relatorios/FXMLAnchorPaneRelatorioOrdensServico.fxml"));
+        anchorPane.getChildren().setAll(a);
     }
 
 

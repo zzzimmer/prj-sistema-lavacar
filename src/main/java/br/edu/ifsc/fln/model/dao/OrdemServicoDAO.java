@@ -30,7 +30,7 @@ public class OrdemServicoDAO {
             PreparedStatement stmt = connection.prepareStatement(sql);
             connection.setAutoCommit(false);
 //            stmt.setLong(1, ordemServico.getNumero());
-            stmt.setBigDecimal(1, BigDecimal.valueOf(ordemServico.getTotal()));
+            stmt.setBigDecimal(1, BigDecimal.valueOf(ordemServico.calcularServico()));
             stmt.setDate(2, Date.valueOf(ordemServico.getAgenda()));//todo -->observar
             stmt.setDouble(3, ordemServico.getDesconto());
             stmt.setInt(4, ordemServico.getVeiculo().getId());
@@ -39,8 +39,6 @@ public class OrdemServicoDAO {
             }
 
             Cliente cliente = ordemServico.getVeiculo().getCliente();
-
-            System.out.println(cliente.getNome());
 
             ClienteDAO clienteDAO = new ClienteDAO();
             clienteDAO.setConnection(connection);
@@ -128,7 +126,7 @@ public class OrdemServicoDAO {
         return ordemServicoRetorno;
     }
 
-    public List<OrdemServico> listar() {
+    public List<OrdemServico> listar() throws DAOException {
         String sql = "SELECT * FROM ordem_servico";
         List<OrdemServico> retorno = new ArrayList<>();
         try {
@@ -163,6 +161,7 @@ public class OrdemServicoDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrdemServicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new DAOException("Impossível listar");
         }
         return retorno;
     }

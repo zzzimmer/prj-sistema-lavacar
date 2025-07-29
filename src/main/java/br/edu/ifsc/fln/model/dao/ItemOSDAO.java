@@ -50,7 +50,6 @@ public class ItemOSDAO {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1,((int) ordemServico.getNumero()));
             ResultSet resultSet = stmt.executeQuery();
-            System.out.println(ordemServico.getNumero());
             while (resultSet.next()){
                 ItemOS itemOS = new ItemOS();
                 Servico servico = new Servico();

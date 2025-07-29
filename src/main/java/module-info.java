@@ -11,4 +11,5 @@ module Main {
     opens br.edu.ifsc.fln.controller.cadastro to javafx.fxml;
     opens br.edu.ifsc.fln.controller.processo to javafx.fxml;
     opens br.edu.ifsc.fln.controller.graficos to javafx.fxml;
+    opens br.edu.ifsc.fln.controller.relatorios to javafx.fxml;
 }

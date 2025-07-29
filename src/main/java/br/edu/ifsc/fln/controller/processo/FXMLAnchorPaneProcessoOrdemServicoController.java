@@ -92,7 +92,11 @@ public class FXMLAnchorPaneProcessoOrdemServicoController implements Initializab
     public void initialize(URL url, ResourceBundle rb) {
         ordemServicoDAO.setConnection(connection);
 
-        carregarTableView();
+        try {
+            carregarTableView();
+        } catch (DAOException e) {
+            throw new RuntimeException(e);
+        }
 
         tableView.getSelectionModel().selectedItemProperty().addListener((
                 observable, oldValue,
@@ -114,34 +118,41 @@ public class FXMLAnchorPaneProcessoOrdemServicoController implements Initializab
 //
 //    }
 
-    public void carregarTableView() {
-        DateTimeFormatter myDateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public void carregarTableView() throws DAOException{
+        try{
 
-        tableColumnOsVeiculoPlaca.setCellValueFactory(new PropertyValueFactory<>("veiculo"));
-        tableColumnOsId.setCellValueFactory(new PropertyValueFactory<>("numero"));
-        tableColumnOsData.setCellFactory(column -> {
-            return new TableCell<OrdemServico, LocalDate>() {
-                @Override
-                protected void updateItem(LocalDate item, boolean empty) {
+            DateTimeFormatter myDateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-                    super.updateItem(item, empty);
+            tableColumnOsVeiculoPlaca.setCellValueFactory(new PropertyValueFactory<>("veiculo"));
+            tableColumnOsId.setCellValueFactory(new PropertyValueFactory<>("numero"));
+            tableColumnOsData.setCellFactory(column -> {
+                return new TableCell<OrdemServico, LocalDate>() {
+                    @Override
+                    protected void updateItem(LocalDate item, boolean empty) {
 
-                    if (item == null || empty) {
-                        setText(null);
-                    } else {
-                        setText(myDateFormatter.format(item));
+                        super.updateItem(item, empty);
+
+                        if (item == null || empty) {
+                            setText(null);
+                        } else {
+                            setText(myDateFormatter.format(item));
+                        }
                     }
-                }
-            };
-        });
+                };
+            });
 
-        tableColumnOsData.setCellValueFactory(new PropertyValueFactory<>("agenda"));
+            tableColumnOsData.setCellValueFactory(new PropertyValueFactory<>("agenda"));
 //        tableColumnOsVeiculoPlaca.setCellValueFactory(new PropertyValueFactory<>("placa")); //todo retornar placa
 
-        listOrdemServico = ordemServicoDAO.listar();
+            listOrdemServico = ordemServicoDAO.listar();
 
-        observableListOrdemServico = FXCollections.observableArrayList(listOrdemServico);
-        tableView.setItems(observableListOrdemServico);
+            observableListOrdemServico = FXCollections.observableArrayList(listOrdemServico);
+            tableView.setItems(observableListOrdemServico);
+
+        } catch (DAOException e){
+            throw new DAOException("Impossível listar banco de dados");
+        }
+
     }
 
     public void selecionarItemTableView(OrdemServico ordemServico) {
@@ -231,7 +242,7 @@ public class FXMLAnchorPaneProcessoOrdemServicoController implements Initializab
     }
 
         @FXML
-        private void handleButtonRemover(ActionEvent event) throws SQLException {
+        private void handleButtonRemover(ActionEvent event) throws SQLException, DAOException {
             OrdemServico ordemServico1 = tableView.getSelectionModel().getSelectedItem();
             if (ordemServico1 != null) {
                 if (AlertDialog.confirmarExclusao("Tem certeza que deseja excluir a Ordem de Serviço:  " + ordemServico1.getNumero())) {
@@ -248,14 +259,14 @@ public class FXMLAnchorPaneProcessoOrdemServicoController implements Initializab
         }
 
         @FXML
-        private void handleButtonAlterar(ActionEvent event) throws IOException {
+        private void handleButtonAlterar(ActionEvent event) throws IOException, DAOException {
             OrdemServico ordemServico = tableView.getSelectionModel().getSelectedItem();
             ItemOSDAO itemOSDAO = new ItemOSDAO();
             itemOSDAO.setConnection(connection);
 
             List<ItemOS> itemOSList = new ArrayList<>();
             itemOSList = itemOSDAO.listarPorOS(ordemServico);
-            System.out.println(itemOSList.size());
+//            System.out.println(itemOSList.size());
             ordemServico.setListItemOs(itemOSList);
             boolean buttonConfirmaClicked = showFXMLAnchorPaneProcessoOrdemServicoDialog(ordemServico);
 

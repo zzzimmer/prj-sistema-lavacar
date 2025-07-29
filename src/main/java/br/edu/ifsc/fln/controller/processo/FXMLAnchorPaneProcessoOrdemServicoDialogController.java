@@ -139,6 +139,7 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
         configurarCampoCliente();
         configurarTableView();
         configurarValorSugerido();
+        atualizarValorTotal();
         datePickerData.setValue(LocalDate.now()); // isso ta aqui porque foi o jeito de funcional. Tava vindo um NPE
 
         // Inicializar a ObservableList da tabela
@@ -169,13 +170,14 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
                     try {
                         if (ordemServico != null) {
                             ordemServico.setDesconto(Double.parseDouble(textFieldDesconto.getText()));
-                            textFieldValor.setText(String.format("%.2f", ordemServico.getTotal()));
+                            textFieldValor.setText(String.format("%.2f", ordemServico.calcularServico()));
                         }
                     } catch (NumberFormatException e) {
                         textFieldDesconto.setText("0.00");
                     }
                 }
             }
+            atualizarValorTotal();
         });
     } // atualiza o valor total da OS
 
@@ -186,7 +188,9 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
         // Listener para quando seleciona um serviço no combo
         comboBoxServico.getSelectionModel().selectedItemProperty().addListener((ov, oldV, newV) -> {
             if (newV != null && !valorModificadoManualmente[0]) {
-                // Só sugere o valor se não foi modificado manualmente
+                // Só sugere o
+                //
+                //se não foi modificado manualmente
                 textFieldValorEscolhido.setText(String.valueOf(newV.getValor()));
             }
         });
@@ -216,9 +220,6 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
     private void atualizarCamposVeiculo(Veiculo veiculo) {
         if (veiculo != null && veiculo.getCliente() != null) {
             textFieldCliente.setText(veiculo.getCliente().getNome());
-
-            System.out.println(veiculo.getModelo().toString());
-            System.out.println("-----passa aki");
 
             textFieldCategoria.setText(veiculo.getModelo().getEcategoria().toString());
             textFieldModelo.setText(veiculo.getModelo().getDescricao());
@@ -322,7 +323,8 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
 
 //                tableViewItensOrdemServico.setItems(observableListItemOs);
 
-                textFieldValor.setText(String.format("%.2f", this.ordemServico.getTotal()));
+                textFieldValor.setText(String.format("%.2f", this.ordemServico.calcularServico()));
+
                 textFieldDesconto.setText(String.format("%.2f", this.ordemServico.getDesconto()));
 
                 if (ordemServico.getVeiculo() != null &&
@@ -332,6 +334,8 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
                     textFieldMarca.setText(this.ordemServico.getVeiculo().getModelo().getMarca().getNome());
                     textFieldCategoria.setText(this.ordemServico.getVeiculo().getModelo().getEcategoria().toString());
                 }
+
+                atualizarValorTotal();
 
                 tableViewItensOrdemServico.refresh();
             }
@@ -347,7 +351,6 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
         }
         ordemServico.setAgenda(data);
 
-        atualizarValorTotal();
         if (comboBoxServico.getSelectionModel().getSelectedItem() == null) {
             mostrarAlerta("Atenção", "Selecione um serviço!");
             return;
@@ -426,6 +429,7 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
 
         ordemServico.setStatus(choiceBoxSituacao.getValue());
 
+
         //todo 16, retorna para -->
         buttonConfirmarClicked = true;
         dialogStage.close();
@@ -459,7 +463,7 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
 
     private void atualizarValorTotal() {
         if (ordemServico != null) {
-            double total = ordemServico.getTotal();
+            double total = ordemServico.calcularServico();
             textFieldValor.setText(String.format("%.2f", total));
         }
     }
