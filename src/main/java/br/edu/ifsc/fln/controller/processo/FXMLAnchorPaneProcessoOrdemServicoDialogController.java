@@ -171,6 +171,7 @@ public class FXMLAnchorPaneProcessoOrdemServicoDialogController implements Initi
                         if (ordemServico != null) {
                             ordemServico.setDesconto(Double.parseDouble(textFieldDesconto.getText()));
                             textFieldValor.setText(String.format("%.2f", ordemServico.calcularServico()));
+
                         }
                     } catch (NumberFormatException e) {
                         textFieldDesconto.setText("0.00");

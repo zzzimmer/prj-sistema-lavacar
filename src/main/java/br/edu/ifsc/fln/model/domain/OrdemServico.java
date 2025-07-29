@@ -106,6 +106,7 @@ public class OrdemServico {
         for (ItemOS itemOS: ListItemOs){
             valor += itemOS.getValorServico();
         }
+        valor = valor-this.desconto;
         return valor;
     }
 
