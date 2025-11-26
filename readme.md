@@ -1,65 +1,76 @@
-🚗 Sistema de Gerenciamento de Ordens de Serviço para Lavação (JavaFX)
-A aplicação é construída em Java, utiliza JavaFX para a interface gráfica e segue a arquitetura MVC (Model-View-Controller).
+# 🚗 Sistema de Gerenciamento de Ordens de Serviço (Lavação)
 
-A persistência de dados é gerenciada através do padrão DAO (Data Access Object), com conexão a um banco de dados MySQL.
+> Aplicação desktop desenvolvida em **Java** com interface gráfica **JavaFX**, seguindo a arquitetura **MVC**.
 
-✨ Funcionalidades Principais
-Cadastros (CRUD):
+A persistência de dados é gerenciada através do padrão **DAO** (Data Access Object), com conexão a um banco de dados **MySQL**.
 
-Clientes: Gerenciamento completo de clientes, distinguindo entre Pessoa Física e Pessoa Jurídica. (Conceito de Herança)
+---
 
-Veículos: Cadastro de veículos, associando-os a Clientes, Modelos, Marcas e Cores.
+## ✨ Funcionalidades Principais
 
-Serviços: Cadastro dos serviços oferecidos, com valor, categoria e pontuação associada.
+### 📋 Cadastros (CRUD)
+* **Clientes:** Gerenciamento completo, distinguindo entre *Pessoa Física* e *Pessoa Jurídica* (uso do conceito de Herança).
+* **Veículos:** Cadastro associando-os a Clientes, Modelos, Marcas e Cores.
+* **Serviços:** Cadastro de ofertas com valor, categoria e pontuação.
+* **Itens Auxiliares:** Gerenciamento de Marcas, Modelos e Cores.
 
-Itens Auxiliares: Gerenciamento de Marcas, Modelos e Cores.
+### ⚙️ Processos
+* **Ordem de Serviço (OS):** Módulo central para criar, alterar e consultar.
+    * Adição de múltiplos serviços (*ItensOS*) em uma única OS.
+    * Definição de status: `Aberta`, `Fechada`, `Cancelada`.
 
-Processos:
+### 📊 Relatórios e Gráficos - JasperReport. 
+* **Relatórios:** Detalhamento das Ordens de Serviço.
+* **Dashboard:** Visualização gráfica (ex: Quantidade de OS por mês) para análise gerencial.
 
-Ordem de Serviço (OS): Módulo principal para criar, alterar e consultar Ordens de Serviço. Permite adicionar múltiplos serviços (ItensOS) a uma única OS, aplicar descontos e definir o status (Aberta, Fechada, Cancelada).
+### 🏆 Sistema de Pontuação
+* Implementação de pontuação de fidelidade para clientes.
 
-Relatórios:
+---
 
-Geração de relatórios detalhados das Ordens de Serviço.
+## 🛠️ Arquitetura e Tecnologias
 
-Gráficos:
+O projeto está estruturado para separar responsabilidades seguindo o padrão **MVC** e **DAO**.
 
-Dashboard visual com gráficos, como a quantidade de Ordens de Serviço realizadas por mês, para análise gerencial.
+### Arquitetura do Projeto
 
-Sistema de Pontuação:
+#### 1. Model (Modelo)
+* `model.domain`: Classes de entidade (POJOs) que representam o mundo real (ex: `Cliente`, `Veiculo`, `OrdemServico`).
+* `model.dao`: Camada de acesso a dados. Contém as classes responsáveis pelo SQL (SELECT, INSERT, UPDATE, DELETE).
+* `model.database`: Contém a `DatabaseFactory` para gerenciar a conexão JDBC com o MySQL.
 
-O diagrama de classes inclui um sistema de pontuação de fidelidade para clientes.
+#### 2. View (Visão)
+* Arquivos **.fxml** (na pasta `view/`): Estruturam a interface gráfica baseada em XML.
 
-🛠️ Arquitetura e Tecnologias
-O projeto está estruturado em pacotes que separam as responsabilidades, seguindo os princípios da arquitetura MVC e do padrão DAO.
+#### 3. Controller (Controlador)
+* `controller`: Classes que ligam a View ao Model (ex: `FXMLAnchorPaneCadastroClienteController`). Tratam eventos de clique e lógica de interface.
 
-Arquitetura do projeto
-Model (Modelo):
+### 🚀 Tecnologias Utilizadas
+* **Linguagem:** Java 11+
+* **Interface:** JavaFX & FXML
+* **Banco de Dados:** MySQL
+* **Conectividade:** JDBC Driver
 
-model.domain: Contém as classes de entidade (POJOs) que representam os objetos do mundo real (ex: Cliente, Veiculo, OrdemServico, Servico).
+---
 
-model.dao: Camada de acesso a dados. Contém as classes DAO (ex: ClienteDAO, OrdemServicoDAO) responsáveis por toda a comunicação (SELECT, INSERT, UPDATE, DELETE) com o banco de dados.
+## 📂 Estrutura de Pacotes
 
-model.database: Inclui a DatabaseFactory para selecionar o SGBD (neste caso, MySQL) e gerenciar a conexão JDBC.
+A organização de pastas reflete a arquitetura MVC:
 
-View (Visão):
-
-Definida pelos arquivos .fxml (localizados na pasta view/). Estes arquivos XML estruturam a interface gráfica do usuário.
-
-Controller (Controlador):
-
-controller: Contém as classes JavaFX Controller (ex: FXMLAnchorPaneProcessoOrdemServicoController, FXMLAnchorPaneCadastroClienteController). Elas fazem a ligação entre a Visão (FXML) e o Modelo (DAO/Domain), tratando os eventos da interface e relacionando com a lógica de negócio.
-
-Tecnologias Utilizadas
-Java 11+
-
-JavaFX: Para a construção da interface gráfica (GUI).
-
-FXML: Linguagem baseada em XML para definir a estrutura da interface do usuário.
-
-MySQL: Sistema de Gerenciamento de Banco de Dados (SGBD).
-
-JDBC: Driver para conectividade com o banco de dados MySQL.
-
-📂 Estrutura de Pacotes
-A estrutura de pastas do projeto segue a organização MVC:
+```tree
+src/
+├── controller/
+│   ├── FXMLMainController.java
+│   └── ...
+├── model/
+│   ├── dao/
+│   │   ├── ClienteDAO.java
+│   │   └── ...
+│   ├── database/
+│   │   └── DatabaseFactory.java
+│   └── domain/
+│       ├── Cliente.java
+│       └── ...
+└── view/
+    ├── main.fxml
+    └── ...
